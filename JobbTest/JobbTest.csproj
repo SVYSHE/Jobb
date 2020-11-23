@@ -17,4 +17,8 @@
       <ProjectReference Include="..\Jobb\Jobb.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="resources\TestData\" />
+    </ItemGroup>
+
 </Project>
