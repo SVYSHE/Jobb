@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Jobb.Models.Implementations;
 using Jobb.Utility;
@@ -47,7 +46,7 @@ namespace JobbTest.ModelTests
             var expected = JobbReturnCode.Success;
             for (int i = 0; i < 3; i++)
             {
-                System.IO.File.Create(@"C:\Test\" + i.ToString()).Close();
+                File.Create(@"C:\Test\" + i.ToString()).Close();
             }
             EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\Test");
             deleteJob.Execute();
@@ -60,9 +59,9 @@ namespace JobbTest.ModelTests
         {
             var expected = JobbReturnCode.Error;
 
-            if (System.IO.Directory.Exists(@"C:\asodgjoüajhgüa"))
+            if (Directory.Exists(@"C:\asodgjoüajhgüa"))
             {
-                System.IO.Directory.Delete(@"C:\asodgjoüajhgüa", true);
+                Directory.Delete(@"C:\asodgjoüajhgüa", true);
             }
             EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
             deleteJob.Execute();
@@ -72,11 +71,9 @@ namespace JobbTest.ModelTests
         [TestMethod]
         public void ExecuteThrowsIoExceptionTest()
         {
-            var expected = JobbReturnCode.Error;
-
-            if (System.IO.Directory.Exists(@"C:\asodgjoüajhgüa"))
+            if (Directory.Exists(@"C:\asodgjoüajhgüa"))
             {
-                System.IO.Directory.Delete(@"C:\asodgjoüajhgüa", true);
+                Directory.Delete(@"C:\asodgjoüajhgüa", true);
             }
             EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
             Assert.ThrowsException<IOException>(() => deleteJob.Execute());

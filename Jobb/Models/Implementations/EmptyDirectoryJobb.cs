@@ -6,9 +6,9 @@ namespace Jobb.Models.Implementations
 {
     public class EmptyDirectoryJobb : AbstractJobb
     {
-        public override string Name { get; set; }
+        public sealed override string Name { get; set; }
         
-        public override JobbReturnCode ReturnCode { get; set; }
+        public sealed override JobbReturnCode ReturnCode { get; set; }
 
         public string TargetDirectory { get; set; }
 
@@ -23,10 +23,10 @@ namespace Jobb.Models.Implementations
         {
             try
             {
-                string[] filesInDirectory = System.IO.Directory.GetFiles(TargetDirectory);
+                string[] filesInDirectory = Directory.GetFiles(TargetDirectory);
                 foreach (var file in filesInDirectory)
                 {
-                    System.IO.File.Delete(file);
+                    File.Delete(file);
                 }
 
                 ReturnCode = JobbReturnCode.Success;
