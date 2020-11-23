@@ -66,16 +66,16 @@ namespace JobbTest.ModelTests
             Assert.AreEqual(expected, deleteJob.ReturnCode);
         }
 
-        [TestMethod]
-        public void ExecuteThrowsIoExceptionTest()
-        {
-            if (Directory.Exists(@"C:\asodgjoüajhgüa"))
-            {
-                Directory.Delete(@"C:\asodgjoüajhgüa", true);
-            }
-            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
-            Assert.ThrowsException<IOException>(() => deleteJob.Execute());
-            
-        }
+        // [TestMethod]
+        // public void ExecuteThrowsIoExceptionTest()
+        // {
+        //     if (Directory.Exists(@"C:\asodgjoüajhgüa"))
+        //     {
+        //         Directory.Delete(@"C:\asodgjoüajhgüa", true);
+        //     }
+        //     EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
+        //     Assert.ThrowsException<IOException>(() => deleteJob.Execute());
+        //     
+        // }
     }
 }
