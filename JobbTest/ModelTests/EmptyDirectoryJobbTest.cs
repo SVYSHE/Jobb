@@ -38,8 +38,6 @@ namespace JobbTest.ModelTests
             Assert.AreEqual(expected, deleteJob.TargetDirectory);
         }
 
-        //Test
-        
         [TestMethod]
         public void ExecuteTest()
         {
@@ -77,6 +75,7 @@ namespace JobbTest.ModelTests
             }
             EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
             Assert.ThrowsException<IOException>(() => deleteJob.Execute());
+            
         }
     }
 }
