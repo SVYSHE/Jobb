@@ -1,8 +1,9 @@
 ﻿using System;
-using Jobb.Utility;
 using System.IO;
+using System.Timers;
+using Jobb.Utility;
 
-namespace Jobb.Models.Implementations
+namespace Jobb.Models.Implementations.Jobbs
 {
     public class EmptyDirectoryJobb : AbstractJobb
     {
@@ -12,11 +13,14 @@ namespace Jobb.Models.Implementations
 
         public string TargetDirectory { get; set; }
 
-        public EmptyDirectoryJobb(string name, string targetDirectory)
+        public EmptyDirectoryJobb(string name, Schedule schedule, string targetDirectory) : base(new Timer())
         {
             Name = name;
             TargetDirectory = targetDirectory;
             ReturnCode = JobbReturnCode.Waiting;
+            Schedule = schedule;
+            _timer.Interval = MillisecondsCalculator.GetMilliseconds(Schedule);
+            _timer.Enabled = true;
         }
 
         public override JobbReturnCode Execute()

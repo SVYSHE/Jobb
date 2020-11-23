@@ -1,6 +1,7 @@
 ﻿using System;
 using Jobb.Models;
 using Jobb.Models.Implementations;
+using Jobb.Models.Implementations.Jobbs;
 
 namespace Jobb
 {

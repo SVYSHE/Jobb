@@ -1,5 +1,6 @@
 using System.IO;
 using Jobb.Models.Implementations;
+using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
