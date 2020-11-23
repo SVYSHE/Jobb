@@ -8,7 +8,7 @@ namespace Jobb.Models.Implementations
     {
         public override string Name { get; set; }
         
-        public override JobbReturnCode ReturnCode { get;}
+        public override JobbReturnCode ReturnCode { get; set; }
 
         public string TargetDirectory { get; set; }
 
@@ -28,12 +28,15 @@ namespace Jobb.Models.Implementations
                 {
                     System.IO.File.Delete(file);
                 }
-                return JobbReturnCode.Success;
+
+                ReturnCode = JobbReturnCode.Success;
+                return ReturnCode;
             }
-            catch (Exception e)
+            catch (IOException ioEx)
             {
-                Console.WriteLine(e.Message);
-                return JobbReturnCode.Error;
+                Console.WriteLine(ioEx.Message);
+                ReturnCode = JobbReturnCode.Error;
+                return ReturnCode;
             }
         }
     }

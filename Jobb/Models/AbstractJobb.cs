@@ -6,7 +6,7 @@ namespace Jobb.Models
     {
         public abstract string Name { get; set; }
 
-        public abstract JobbReturnCode ReturnCode { get; }
+        public abstract JobbReturnCode ReturnCode { get; set; }
 
         public abstract JobbReturnCode Execute();
     }
