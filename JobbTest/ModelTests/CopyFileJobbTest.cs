@@ -1,62 +1,75 @@
-﻿using Jobb.Models.Implementations;
+﻿using System.IO;
+using Jobb.Models.Implementations;
 using Jobb.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JobbTest.ModelTests
-{
+namespace JobbTest.ModelTests {
     [TestClass]
-    public class CopyFileJobbTest
-    {
+    public class CopyFileJobbTest : TestBase {
+        private string fromDirectory;
+        private string toDirectory;
+        private readonly string fileToCopy = "helloWorld.txt";
+
+        [TestInitialize]
+        public void Init() {
+            fromDirectory = Path.Combine(LocalResourceTestDataPath, "fromDirectory");
+            CreateFolder(fromDirectory);
+            CreateFile(Path.Combine(fromDirectory, fileToCopy));
+            toDirectory = Path.Combine(LocalResourceTestDataPath, "toDirectory");
+            CreateFolder(toDirectory);
+        }
+
         [TestMethod]
-        public void GetNameTest()
-        {
+        public void GetNameTest() {
             string expected = "test";
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("test", "abcdef", "ghijkl", "test");
+            var copyFileJobb = new CopyFileJobb("test", fromDirectory, toDirectory, fileToCopy);
 
             Assert.AreEqual(expected, copyFileJobb.Name);
         }
 
         [TestMethod]
-        public void GetSourceDirectoryTest()
-        {
-            string expected = "test";
+        public void GetSourceDirectoryTest() {
+            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy);
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("a", "test", "b", "c");
-
-            Assert.AreEqual(expected, copyFileJobb.SourceDirectory);
+            Assert.AreEqual(fromDirectory, copyFileJobb.SourceDirectory);
         }
 
         [TestMethod]
-        public void GetTargetDirectoryTest()
-        {
-            string expected = "b";
+        public void GetTargetDirectoryTest() {
+            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy);
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("a", "test", "b", "c");
-
-            Assert.AreEqual(expected, copyFileJobb.TargetDirectory);
+            Assert.AreEqual(toDirectory, copyFileJobb.TargetDirectory);
         }
 
         [TestMethod]
-        public void GetFileNameDirectoryTest()
-        {
-            string expected = "c";
+        public void GetFileNameDirectoryTest() {
+            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy);
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("a", "test", "b", "c");
-
-            Assert.AreEqual(expected, copyFileJobb.FileName);
+            Assert.AreEqual(fileToCopy, copyFileJobb.FileName);
         }
 
         [TestMethod]
-        public void ReturnCodeIsSetToWaitingAfterConstructor()
-        {
+        public void ReturnCodeIsSetToWaitingAfterConstructor() {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
 
             var copyFileJobb = new CopyFileJobb("", "", "", "");
 
             Assert.AreEqual(expected, copyFileJobb.ReturnCode);
         }
-        
-        // TODO: Test Execute() Method.
+
+        [TestMethod]
+        public void ExecuteCopyFileJobbSuccess() {
+            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy).Execute();
+
+            Assert.AreEqual(JobbReturnCode.Success, copyFileJobb);
+        }
+
+        [TestMethod]
+        public void ExecuteCopyFileJobbError() {
+            var copyFileJobb = new CopyFileJobb("a", fromDirectory, "invalidFolderPath", fileToCopy).Execute();
+
+            Assert.AreEqual(JobbReturnCode.Error, copyFileJobb);
+        }
     }
 }
