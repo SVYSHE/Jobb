@@ -43,9 +43,7 @@ namespace Jobb.Models.Implementations.Jobbs
                 File.Copy(Path.Combine(SourceDirectory, FileName), Path.Combine(TargetDirectory, FileName));
                 ReturnCode = JobbReturnCode.Success;
                 return ReturnCode;
-            }
-            catch (IOException ioEx)
-            {
+            } catch (IOException ioEx) {
                 Console.WriteLine(ioEx);
                 ReturnCode = JobbReturnCode.Error;
                 return ReturnCode;
