@@ -14,7 +14,7 @@ namespace Jobb.Models
 
         public abstract JobbReturnCode Execute();
 
-        protected System.Timers.Timer Timer;
+        protected Timer Timer;
 
         protected Schedule Schedule { get; set; }
 
@@ -23,7 +23,7 @@ namespace Jobb.Models
             
         }
 
-        protected virtual void  Timer_Elapsed(object source, ElapsedEventArgs e)
+        protected virtual void Timer_Elapsed(object source, ElapsedEventArgs e)
         {
             Execute();
         }

@@ -49,8 +49,8 @@ namespace Jobb.Models.Implementations
 
         public Schedule(Period period, int unit)
         {
-            this.Period = period;
-            this.Unit = unit;
+            Period = period;
+            Unit = unit;
         }
     }
 

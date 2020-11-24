@@ -21,7 +21,7 @@ namespace JobbTest.ModelTests
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbSuccess() {        
-            var deleteJob = new EmptyDirectoryJobb("TestJob",new Schedule(), emptyDirectory).Execute();
+            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), emptyDirectory).Execute();
             
 
             Assert.AreEqual(JobbReturnCode.Success, deleteJob);
@@ -37,7 +37,7 @@ namespace JobbTest.ModelTests
                 CreateFile(Path.Combine(emptyDirectory, i.ToString()));
             }
 
-            var deleteJob = new EmptyDirectoryJobb("Testjobb", LocalResourceTestDataPath).Execute();
+            var deleteJob = new EmptyDirectoryJobb("Testjobb", new Schedule(), LocalResourceTestDataPath).Execute();
 
             Assert.AreEqual(expected, deleteJob);
         }
@@ -73,7 +73,7 @@ namespace JobbTest.ModelTests
         {
             string expected = LocalResourceTestDataPath;
             
-            var deleteJob = new EmptyDirectoryJobb("Test", LocalResourceTestDataPath);
+            var deleteJob = new EmptyDirectoryJobb("Test", new Schedule(), LocalResourceTestDataPath);
             
             Assert.AreEqual(expected, deleteJob.TargetDirectory);
         }

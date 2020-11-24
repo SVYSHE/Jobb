@@ -24,28 +24,28 @@ namespace JobbTest.ModelTests {
         public void GetNameTest() {
             string expected = "test";
 
-            var copyFileJobb = new CopyFileJobb("test", fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb("test", new Schedule(), fromDirectory, toDirectory, fileToCopy);
 
             Assert.AreEqual(expected, copyFileJobb.Name);
         }
 
         [TestMethod]
         public void GetSourceDirectoryTest() {
-            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy);
 
             Assert.AreEqual(fromDirectory, copyFileJobb.SourceDirectory);
         }
 
         [TestMethod]
         public void GetTargetDirectoryTest() {
-            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy);
 
             Assert.AreEqual(toDirectory, copyFileJobb.TargetDirectory);
         }
 
         [TestMethod]
         public void GetFileNameDirectoryTest() {
-            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy);
 
             Assert.AreEqual(fileToCopy, copyFileJobb.FileName);
         }
@@ -61,14 +61,14 @@ namespace JobbTest.ModelTests {
 
         [TestMethod]
         public void ExecuteCopyFileJobbSuccess() {
-            var copyFileJobb = new CopyFileJobb("a", fromDirectory, toDirectory, fileToCopy).Execute();
+            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy).Execute();
 
             Assert.AreEqual(JobbReturnCode.Success, copyFileJobb);
         }
 
         [TestMethod]
         public void ExecuteCopyFileJobbError() {
-            var copyFileJobb = new CopyFileJobb("a", fromDirectory, "invalidFolderPath", fileToCopy).Execute();
+            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, "invalidFolderPath", fileToCopy).Execute();
 
             Assert.AreEqual(JobbReturnCode.Error, copyFileJobb);
         }

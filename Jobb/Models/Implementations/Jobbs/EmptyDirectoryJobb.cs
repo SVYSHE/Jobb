@@ -1,11 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Loader;
 using System.Timers;
 using Jobb.Utility;
 
-namespace Jobb.Models.Implementations.Jobbs
-{
+namespace Jobb.Models.Implementations.Jobbs {
     public class EmptyDirectoryJobb : AbstractJobb
     {
         public sealed override string Name { get; set; }
@@ -26,9 +24,10 @@ namespace Jobb.Models.Implementations.Jobbs
 
         public sealed override void SetTimer()
         {
-            Timer = new Timer();
-            Timer.Interval = MillisecondsCalculator.GetMilliseconds(Schedule);
-            Timer.AutoReset = true;
+            Timer = new Timer {
+                Interval = MillisecondsCalculator.GetMilliseconds(Schedule),
+                AutoReset = true
+            };
             Timer.Elapsed += Timer_Elapsed;
             Timer.Enabled = true;
             Timer.Start();
