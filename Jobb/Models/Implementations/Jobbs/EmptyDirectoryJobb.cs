@@ -1,8 +1,10 @@
 ﻿using System;
-using Jobb.Utility;
 using System.IO;
+using System.Runtime.Loader;
+using System.Timers;
+using Jobb.Utility;
 
-namespace Jobb.Models.Implementations
+namespace Jobb.Models.Implementations.Jobbs
 {
     public class EmptyDirectoryJobb : AbstractJobb
     {
@@ -12,11 +14,24 @@ namespace Jobb.Models.Implementations
 
         public string TargetDirectory { get; set; }
 
-        public EmptyDirectoryJobb(string name, string targetDirectory)
+        public EmptyDirectoryJobb(string name, Schedule schedule,string targetDirectory)
         {
             Name = name;
             TargetDirectory = targetDirectory;
             ReturnCode = JobbReturnCode.Waiting;
+            Schedule = schedule;
+            SetTimer();
+        }
+
+
+        public sealed override void SetTimer()
+        {
+            Timer = new Timer();
+            Timer.Interval = MillisecondsCalculator.GetMilliseconds(Schedule);
+            Timer.AutoReset = true;
+            Timer.Elapsed += Timer_Elapsed;
+            Timer.Enabled = true;
+            Timer.Start();
         }
 
         public override JobbReturnCode Execute()
@@ -24,7 +39,7 @@ namespace Jobb.Models.Implementations
             try
             {
                 string[] filesInDirectory = Directory.GetFiles(TargetDirectory);
-                foreach (var file in filesInDirectory)
+                foreach (string file in filesInDirectory)
                 {
                     File.Delete(file);
                 }

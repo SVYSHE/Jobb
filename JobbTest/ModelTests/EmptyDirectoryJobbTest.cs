@@ -1,5 +1,6 @@
 using System.IO;
 using Jobb.Models.Implementations;
+using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -20,29 +21,15 @@ namespace JobbTest.ModelTests
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbSuccess() {        
-            var deleteJob = new EmptyDirectoryJobb("TestJob", emptyDirectory).Execute();
+            var deleteJob = new EmptyDirectoryJobb("TestJob",new Schedule(), emptyDirectory).Execute();
+            
 
             Assert.AreEqual(JobbReturnCode.Success, deleteJob);
         }
 
         [TestMethod]
-        public void ExecuteEmptyDirectoryJobbMultipleFilesSuccess() {
-            var expected = JobbReturnCode.Success;
-            var testFolder = LocalResourceTestDataPath;
-            CreateFolder(testFolder);
-
-            for (int i = 0; i < 3; i++) {
-                CreateFile(Path.Combine(emptyDirectory, i.ToString()));
-            }
-
-            var deleteJob = new EmptyDirectoryJobb("Testjobb", LocalResourceTestDataPath).Execute();
-
-            Assert.AreEqual(expected, deleteJob);
-        }
-
-        [TestMethod]
         public void ExecuteEmptyDirectoryJobbError() {
-            var deleteJob = new EmptyDirectoryJobb("TestJob", "invalidFilePath").Execute();
+            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), "invalidFilePath").Execute();
             Assert.AreEqual(JobbReturnCode.Error, deleteJob);
         }
 
@@ -51,7 +38,7 @@ namespace JobbTest.ModelTests
         {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
             
-            var deleteJob = new EmptyDirectoryJobb("TestJob", emptyDirectory); 
+            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), emptyDirectory); 
             
             Assert.AreEqual(expected,deleteJob.ReturnCode);
         }
@@ -61,7 +48,7 @@ namespace JobbTest.ModelTests
         {
             const string expected = "Testname";
             
-            var deleteJob = new EmptyDirectoryJobb("Testname", emptyDirectory);
+            var deleteJob = new EmptyDirectoryJobb("Testname", new Schedule(), emptyDirectory);
 
             Assert.AreEqual(expected, deleteJob.Name);
         }
@@ -69,11 +56,51 @@ namespace JobbTest.ModelTests
         [TestMethod]
         public void GetTargetDirectoryTest()
         {
-            string expected = LocalResourceTestDataPath;
+            string expected = @"C:\Test";
             
-            var deleteJob = new EmptyDirectoryJobb("Test", LocalResourceTestDataPath);
+            var deleteJob = new EmptyDirectoryJobb("Test", new Schedule(), @"C:\Test");
             
             Assert.AreEqual(expected, deleteJob.TargetDirectory);
         }
+
+        [TestMethod]
+        public void ExecuteTest()
+        {
+            var expected = JobbReturnCode.Success;
+            for (int i = 0; i < 3; i++)
+            {
+                File.Create(@"C:\Test\" + i.ToString()).Close();
+            }
+            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", new Schedule(),@"C:\Test");
+            deleteJob.Execute();
+
+            Assert.AreEqual(expected,deleteJob.ReturnCode);
+        }
+
+        [TestMethod]
+        public void ExecuteFailsTest()
+        {
+            var expected = JobbReturnCode.Error;
+
+            if (Directory.Exists(@"C:\asodgjoüajhgüa"))
+            {
+                Directory.Delete(@"C:\asodgjoüajhgüa", true);
+            }
+            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", new Schedule(),@"C:\asodgjoüajhgüa");
+            deleteJob.Execute();
+            Assert.AreEqual(expected, deleteJob.ReturnCode);
+        }
+
+        // [TestMethod]
+        // public void ExecuteThrowsIoExceptionTest()
+        // {
+        //     if (Directory.Exists(@"C:\asodgjoüajhgüa"))
+        //     {
+        //         Directory.Delete(@"C:\asodgjoüajhgüa", true);
+        //     }
+        //     EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
+        //     Assert.ThrowsException<IOException>(() => deleteJob.Execute());
+        //     
+        // }
     }
 }

@@ -1,10 +1,21 @@
-﻿using Jobb.Models.Implementations;
+﻿using System;
+using Jobb.Models;
+using Jobb.Models.Implementations;
+using Jobb.Models.Implementations.Jobbs;
+using Jobb.Utility;
 
-namespace Jobb {
-    static class Program {
-        static void Main() {
-            var deleteJob = new EmptyDirectoryJobb("empty directory 'test'", @"C:\Test");
-            deleteJob.Execute();
+namespace Jobb
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            EmptyDirectoryJobb xy = new EmptyDirectoryJobb("Test", new Schedule(Period.Seconds, 1), @"C:\Test");
+            while (true)
+            {
+                
+            }
         }
     }
 }
