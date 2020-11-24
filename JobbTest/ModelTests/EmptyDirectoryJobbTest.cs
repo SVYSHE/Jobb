@@ -21,14 +21,15 @@ namespace JobbTest.ModelTests
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbSuccess() {        
-            var deleteJob = new EmptyDirectoryJobb("TestJob", emptyDirectory).Execute();
+            var deleteJob = new EmptyDirectoryJobb("TestJob",new Schedule(), emptyDirectory).Execute();
+            
 
             Assert.AreEqual(JobbReturnCode.Success, deleteJob);
         }
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbError() {
-            var deleteJob = new EmptyDirectoryJobb("TestJob", "invalidFilePath").Execute();
+            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), "invalidFilePath").Execute();
             Assert.AreEqual(JobbReturnCode.Error, deleteJob);
         }
 
@@ -37,7 +38,7 @@ namespace JobbTest.ModelTests
         {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
             
-            var deleteJob = new EmptyDirectoryJobb("TestJob", emptyDirectory); 
+            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), emptyDirectory); 
             
             Assert.AreEqual(expected,deleteJob.ReturnCode);
         }
@@ -47,7 +48,7 @@ namespace JobbTest.ModelTests
         {
             const string expected = "Testname";
             
-            var deleteJob = new EmptyDirectoryJobb("Testname", emptyDirectory);
+            var deleteJob = new EmptyDirectoryJobb("Testname", new Schedule(), emptyDirectory);
 
             Assert.AreEqual(expected, deleteJob.Name);
         }
@@ -57,7 +58,7 @@ namespace JobbTest.ModelTests
         {
             string expected = @"C:\Test";
             
-            var deleteJob = new EmptyDirectoryJobb("Test", @"C:\Test");
+            var deleteJob = new EmptyDirectoryJobb("Test", new Schedule(), @"C:\Test");
             
             Assert.AreEqual(expected, deleteJob.TargetDirectory);
         }
@@ -70,7 +71,7 @@ namespace JobbTest.ModelTests
             {
                 File.Create(@"C:\Test\" + i.ToString()).Close();
             }
-            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\Test");
+            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", new Schedule(),@"C:\Test");
             deleteJob.Execute();
 
             Assert.AreEqual(expected,deleteJob.ReturnCode);
@@ -85,7 +86,7 @@ namespace JobbTest.ModelTests
             {
                 Directory.Delete(@"C:\asodgjoüajhgüa", true);
             }
-            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", @"C:\asodgjoüajhgüa");
+            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("Testjobb", new Schedule(),@"C:\asodgjoüajhgüa");
             deleteJob.Execute();
             Assert.AreEqual(expected, deleteJob.ReturnCode);
         }

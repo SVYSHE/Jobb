@@ -15,7 +15,7 @@ namespace Jobb.Models.Implementations.Jobbs
         public string FileName { get; set; }
         public sealed override JobbReturnCode ReturnCode { get; set; }
         
-        public CopyFileJobb(string name, Schedule schedule, string sourceDirectory, string targetDirectory, string fileName) : base(new Timer())
+        public CopyFileJobb(string name, Schedule schedule, string sourceDirectory, string targetDirectory, string fileName)
         {
             ReturnCode = JobbReturnCode.Waiting;
             Name = name;
@@ -23,8 +23,19 @@ namespace Jobb.Models.Implementations.Jobbs
             TargetDirectory = targetDirectory;
             FileName = fileName;
             Schedule = schedule;
+            SetTimer();
         }
-        
+
+        public sealed override void SetTimer()
+        {
+            Timer = new Timer();
+            Timer.Interval = MillisecondsCalculator.GetMilliseconds(Schedule);
+            Timer.AutoReset = true;
+            Timer.Elapsed += Timer_Elapsed;
+            Timer.Enabled = true;
+            Timer.Start();
+        }
+
         public override JobbReturnCode Execute()
         {
             try

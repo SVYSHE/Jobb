@@ -2,6 +2,7 @@
 using Jobb.Models;
 using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
+using Jobb.Utility;
 
 namespace Jobb
 {
@@ -9,8 +10,12 @@ namespace Jobb
     {
         static void Main(string[] args)
         {
-            EmptyDirectoryJobb deleteJob = new EmptyDirectoryJobb("empty directory 'test'", @"C:\Test");
-            deleteJob.Execute();
+            
+            EmptyDirectoryJobb xy = new EmptyDirectoryJobb("Test", new Schedule(Period.Seconds, 1), @"C:\Test");
+            while (true)
+            {
+                
+            }
         }
     }
 }

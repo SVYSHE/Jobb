@@ -10,15 +10,23 @@ namespace Jobb.Models
 
         public abstract JobbReturnCode ReturnCode { get; set; }
 
+        public abstract void SetTimer();
+
         public abstract JobbReturnCode Execute();
 
-        protected System.Timers.Timer _timer;
-        
-        public Schedule Schedule { get; set; }
+        protected System.Timers.Timer Timer;
 
-        protected AbstractJobb(Timer timer)
+        protected Schedule Schedule { get; set; }
+
+        protected AbstractJobb()
         {
-            this._timer = timer;
+            
         }
+
+        protected virtual void  Timer_Elapsed(object source, ElapsedEventArgs e)
+        {
+            Execute();
+        }
+        
     }
 }

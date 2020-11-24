@@ -11,9 +11,9 @@ namespace JobbTest.ModelTests
         [TestMethod]
         public void GetNameTest()
         {
-            string expected = "test";
+            const string expected = "test";
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("test", "abcdef", "ghijkl", "test");
+            var copyFileJobb = new CopyFileJobb("test",new Schedule(), "abcdef", "ghijkl", "test");
 
             Assert.AreEqual(expected, copyFileJobb.Name);
         }
@@ -21,9 +21,9 @@ namespace JobbTest.ModelTests
         [TestMethod]
         public void GetSourceDirectoryTest()
         {
-            string expected = "test";
+            const string expected = "test";
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("a", "test", "b", "c");
+            var copyFileJobb = new CopyFileJobb("a",new Schedule(), "test", "b", "c");
 
             Assert.AreEqual(expected, copyFileJobb.SourceDirectory);
         }
@@ -31,9 +31,9 @@ namespace JobbTest.ModelTests
         [TestMethod]
         public void GetTargetDirectoryTest()
         {
-            string expected = "b";
+            const string expected = "b";
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("a", "test", "b", "c");
+            var copyFileJobb = new CopyFileJobb("a", new Schedule(), "test", "b", "c");
 
             Assert.AreEqual(expected, copyFileJobb.TargetDirectory);
         }
@@ -41,9 +41,9 @@ namespace JobbTest.ModelTests
         [TestMethod]
         public void GetFileNameDirectoryTest()
         {
-            string expected = "c";
+            const string expected = "c";
 
-            CopyFileJobb copyFileJobb = new CopyFileJobb("a", "test", "b", "c");
+            var copyFileJobb = new CopyFileJobb("a",new Schedule(), "test", "b", "c");
 
             Assert.AreEqual(expected, copyFileJobb.FileName);
         }
@@ -53,7 +53,7 @@ namespace JobbTest.ModelTests
         {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
 
-            var copyFileJobb = new CopyFileJobb("", "", "", "");
+            var copyFileJobb = new CopyFileJobb("", new Schedule(), "", "", "");
 
             Assert.AreEqual(expected, copyFileJobb.ReturnCode);
         }
