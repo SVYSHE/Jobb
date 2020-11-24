@@ -12,14 +12,36 @@ namespace JobbTest.ScheduleTests {
 
         [DataTestMethod]
         [DataRow(Period.Seconds, 60)]
+        [DataRow(Period.Seconds, 0)]
+        [DataRow(Period.Seconds, -1)]
         [DataRow(Period.Minutes, 60)]
+        [DataRow(Period.Minutes, 0)]
+        [DataRow(Period.Minutes, -1)]
         [DataRow(Period.Hours, 24)]
+        [DataRow(Period.Hours, 0)]
+        [DataRow(Period.Hours, -1)]
         [DataRow(Period.Days, 32)]
+        [DataRow(Period.Days, 0)]
+        [DataRow(Period.Days, -1)]
         [DataRow(Period.Weeks, 52)]
-        [DataRow(Period.Months, 13)]
+        [DataRow(Period.Weeks, 0)]
+        [DataRow(Period.Weeks, -1)]
+        [DataRow(Period.Months, 12)]
+        [DataRow(Period.Months, 0)]
+        [DataRow(Period.Months, -1)]
         [DataRow(Period.Years, 0)]
         [ExpectedException(typeof(ArgumentException))]
         public void ExecuteEmptyDirectoryJobbWithInvalidSchedulePeriods(Period period, int unit) => new Schedule(period, unit);
+
+        [DataTestMethod]
+        [DataRow(Period.Seconds, 59)]
+        [DataRow(Period.Minutes, 59)]
+        [DataRow(Period.Hours, 23)]
+        [DataRow(Period.Days, 31)]
+        [DataRow(Period.Weeks, 51)]
+        [DataRow(Period.Months, 11)]
+        [DataRow(Period.Years, 1)]
+        public void ExecuteEmptyDirectoryJobbWithValidSchedulePeriods(Period period, int unit) => _ = new Schedule(period, unit);
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbAfterSetScheduleSuccess() {

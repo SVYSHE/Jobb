@@ -22,20 +22,20 @@ namespace Jobb.Models.Implementations
                 //TODO: Create custom exception.
                 _unit = Period switch
                 {
-                    Period.Seconds when value >= GeneralLowerBound && value < SecondsUpperBound => value,
-                    Period.Seconds => throw new ArgumentException("The biggest valid unit for seconds is <59>."),
-                    Period.Minutes when value >= GeneralLowerBound && value < MinutesUpperBound => value,
-                    Period.Minutes => throw new ArgumentException("The biggest valid unit for minutes is <59>."),
-                    Period.Hours when value >= GeneralLowerBound && value < HoursUpperBound => value,
-                    Period.Hours => throw new ArgumentException("The biggest valid unit for hours is <23>."),
-                    Period.Days when value >= GeneralLowerBound && value < DaysUpperBound => value,
-                    Period.Days => throw new ArgumentException("The biggest valid unit for days is <31>."),
-                    Period.Weeks when value >= GeneralLowerBound && value < WeeksUpperBound => value,
-                    Period.Weeks => throw new ArgumentException("The biggest valid unit for weeks is <51>."),
-                    Period.Months when value >= GeneralLowerBound && value < MonthsUpperBound => value,
-                    Period.Months => throw new ArgumentException("The biggest valid unit for months is <12>."),
+                    Period.Seconds when value > GeneralLowerBound && value < SecondsUpperBound => value,
+                    Period.Seconds => throw new ArgumentException(GetPeriodExceptionString(GeneralLowerBound, SecondsUpperBound, value)),
+                    Period.Minutes when value > GeneralLowerBound && value < MinutesUpperBound => value,
+                    Period.Minutes => throw new ArgumentException(GetPeriodExceptionString(GeneralLowerBound, MinutesUpperBound, value)),
+                    Period.Hours when value > GeneralLowerBound && value < HoursUpperBound => value,
+                    Period.Hours => throw new ArgumentException(GetPeriodExceptionString(GeneralLowerBound, HoursUpperBound, value)),
+                    Period.Days when value > GeneralLowerBound && value < DaysUpperBound => value,
+                    Period.Days => throw new ArgumentException(GetPeriodExceptionString(GeneralLowerBound, DaysUpperBound, value)),
+                    Period.Weeks when value > GeneralLowerBound && value < WeeksUpperBound => value,
+                    Period.Weeks => throw new ArgumentException(GetPeriodExceptionString(GeneralLowerBound, WeeksUpperBound, value)),
+                    Period.Months when value > GeneralLowerBound && value < MonthsUpperBound => value,
+                    Period.Months => throw new ArgumentException(GetPeriodExceptionString(GeneralLowerBound, MonthsUpperBound, value)),
                     Period.Years when value > GeneralLowerBound => value,
-                    Period.Years => throw new ArgumentException("The smallest valid unit for years is <1>."),
+                    Period.Years => throw new ArgumentException($"Value <{value}> for {Enum.GetName(Period)} invalid. Value has to be at least <{GeneralLowerBound + 1}>."),
                     _ => throw new ArgumentException("Please specify a matching period.")
                 };
             } }
@@ -52,7 +52,9 @@ namespace Jobb.Models.Implementations
             Period = period;
             Unit = unit;
         }
-    }
 
-    
+        private string GetPeriodExceptionString(uint lowerBound, uint upperBound, int value) {
+            return $"Value <{value}> for {Enum.GetName(Period)} invalid. Valid values are between <{lowerBound + 1}> and <{upperBound - 1}>.";
+        }
+    } 
 }
