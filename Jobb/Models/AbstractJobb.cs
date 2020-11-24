@@ -1,6 +1,4 @@
-﻿using System.Timers;
-using Jobb.Models.Implementations;
-using Jobb.Utility;
+﻿using Jobb.Utility;
 
 namespace Jobb.Models
 {
@@ -10,23 +8,6 @@ namespace Jobb.Models
 
         public abstract JobbReturnCode ReturnCode { get; set; }
 
-        public abstract void SetTimer();
-
         public abstract JobbReturnCode Execute();
-
-        protected System.Timers.Timer Timer;
-
-        protected Schedule Schedule { get; set; }
-
-        protected AbstractJobb()
-        {
-            
-        }
-
-        protected virtual void  Timer_Elapsed(object source, ElapsedEventArgs e)
-        {
-            Execute();
-        }
-        
     }
 }
