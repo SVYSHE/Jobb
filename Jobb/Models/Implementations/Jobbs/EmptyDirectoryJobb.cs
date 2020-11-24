@@ -21,7 +21,6 @@ namespace Jobb.Models.Implementations.Jobbs {
             SetTimer();
         }
 
-
         public sealed override void SetTimer()
         {
             Timer = new Timer {

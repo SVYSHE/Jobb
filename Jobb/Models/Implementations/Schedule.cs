@@ -34,7 +34,7 @@ namespace Jobb.Models.Implementations
                     Period.Weeks => throw new ArgumentException("The biggest valid unit for weeks is <51>."),
                     Period.Months when value >= GeneralLowerBound && value < MonthsUpperBound => value,
                     Period.Months => throw new ArgumentException("The biggest valid unit for months is <12>."),
-                    Period.Years when value >= GeneralLowerBound => value,
+                    Period.Years when value > GeneralLowerBound => value,
                     Period.Years => throw new ArgumentException("The smallest valid unit for years is <1>."),
                     _ => throw new ArgumentException("Please specify a matching period.")
                 };

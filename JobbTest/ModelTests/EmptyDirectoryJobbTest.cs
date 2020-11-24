@@ -4,8 +4,7 @@ using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JobbTest.ModelTests
-{
+namespace JobbTest.ModelTests {
     [TestClass]
     public class EmptyDirectoryJobbTest : TestBase
     {
