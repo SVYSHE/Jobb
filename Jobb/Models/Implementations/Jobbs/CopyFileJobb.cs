@@ -28,9 +28,10 @@ namespace Jobb.Models.Implementations.Jobbs
 
         public sealed override void SetTimer()
         {
-            Timer = new Timer();
-            Timer.Interval = MillisecondsCalculator.GetMilliseconds(Schedule);
-            Timer.AutoReset = true;
+            Timer = new Timer {
+                Interval = MillisecondsCalculator.GetMilliseconds(Schedule),
+                AutoReset = true
+            };
             Timer.Elapsed += Timer_Elapsed;
             Timer.Enabled = true;
             Timer.Start();

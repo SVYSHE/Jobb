@@ -5,7 +5,7 @@ namespace Jobb.Utility
 {
     public static class MillisecondsCalculator
     {
-        public static UInt64 GetMilliseconds(Schedule schedule)
+        public static ulong GetMilliseconds(Schedule schedule)
         {
             return schedule.Period switch
             {
