@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
+using Jobb.Exceptions;
 using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
@@ -30,7 +30,7 @@ namespace JobbTest.ScheduleTests {
         [DataRow(Period.Months, 0)]
         [DataRow(Period.Months, -1)]
         [DataRow(Period.Years, 0)]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(PeriodValueOutOfBoundsException))]
         public void ExecuteEmptyDirectoryJobbWithInvalidSchedulePeriods(Period period, int unit) => new Schedule(period, unit);
 
         [DataTestMethod]
