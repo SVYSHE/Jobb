@@ -1,40 +1,19 @@
 ﻿using System;
 using System.IO;
-using System.Timers;
 using Jobb.Utility;
 
-namespace Jobb.Models.Implementations.Jobbs
-{
+namespace Jobb.Models.Implementations.Jobbs {
     public class CopyFileJobb : AbstractJobb
     {
-        
-
-        public sealed override string Name { get; set; }
         public string SourceDirectory { get; set; }
         public string TargetDirectory { get; set; }
         public string FileName { get; set; }
-        public sealed override JobbReturnCode ReturnCode { get; set; }
         
-        public CopyFileJobb(string name, Schedule schedule, string sourceDirectory, string targetDirectory, string fileName)
-        {
-            ReturnCode = JobbReturnCode.Waiting;
-            Name = name;
+        public CopyFileJobb(string name, Schedule schedule, string sourceDirectory, string targetDirectory, string fileName) : base(name, schedule) {
             SourceDirectory = sourceDirectory;
             TargetDirectory = targetDirectory;
             FileName = fileName;
-            Schedule = schedule;
             SetTimer();
-        }
-
-        public sealed override void SetTimer()
-        {
-            Timer = new Timer {
-                Interval = MillisecondsCalculator.GetMilliseconds(Schedule),
-                AutoReset = true
-            };
-            Timer.Elapsed += Timer_Elapsed;
-            Timer.Enabled = true;
-            Timer.Start();
         }
 
         public override JobbReturnCode Execute()

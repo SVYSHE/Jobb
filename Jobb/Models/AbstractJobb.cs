@@ -6,21 +6,29 @@ namespace Jobb.Models
 {
     public abstract class AbstractJobb
     {
-        public abstract string Name { get; set; }
-
-        public abstract JobbReturnCode ReturnCode { get; set; }
-
-        public abstract void SetTimer();
-
-        public abstract JobbReturnCode Execute();
+        public string Name { get; set; }
+        public JobbReturnCode ReturnCode { get; set; }
+        protected Schedule Schedule { get; set; }
 
         protected Timer Timer;
 
-        protected Schedule Schedule { get; set; }
-
-        protected AbstractJobb()
+        protected AbstractJobb(string name, Schedule schedule)
         {
-            
+            Name = name;
+            Schedule = schedule;
+            ReturnCode = JobbReturnCode.Waiting;
+        }
+
+        public abstract JobbReturnCode Execute();
+
+        public virtual void SetTimer() {
+            Timer = new Timer {
+                Interval = MillisecondsCalculator.GetMilliseconds(Schedule),
+                AutoReset = true
+            };
+            Timer.Elapsed += Timer_Elapsed;
+            Timer.Enabled = true;
+            Timer.Start();
         }
 
         protected virtual void Timer_Elapsed(object source, ElapsedEventArgs e)
