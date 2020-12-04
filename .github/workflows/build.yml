@@ -48,6 +48,6 @@ jobs:
         with:
             sonarProjectKey: svyshe
             sonarProjectName: Jobb
-            sonarProjectOrganization: SVYSHE
+            sonarOrganization: SVYSHE
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
