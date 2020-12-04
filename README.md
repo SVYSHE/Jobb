@@ -1,3 +1,5 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/SVYSHE/Jobb?branch=master)](https://bettercodehub.com/)
+
 # Jobb
 
 Jobb is a program desired to automate certain things. Starting with default jobs we implement here to provide the users with simple things like emptying a directory at a certain period of time, we are planning to implement a scripting interface for custom user jobbs.
