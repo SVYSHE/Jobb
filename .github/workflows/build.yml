@@ -15,9 +15,10 @@ jobs:
       - name: sonarscan-dotnet
         uses: highbyte/sonarscan-dotnet@2.0
         with:
-            sonarProjectKey: SVYSHE_Jobb
-            sonarProjectName: Jobb
-            sonarOrganization: svyshe
+          fetch-depth: '0'
+          sonarProjectKey: SVYSHE_Jobb
+          sonarProjectName: Jobb
+          sonarOrganization: svyshe
         env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
