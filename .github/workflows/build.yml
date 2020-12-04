@@ -1,6 +1,6 @@
 
 
-
+name: SonarScan
 on:
   push:
     branches:
@@ -20,3 +20,4 @@ jobs:
             sonarOrganization: svyshe
         env:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
