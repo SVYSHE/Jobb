@@ -6,7 +6,7 @@ Jobb is a program desired to automate certain things. Starting with default jobs
 
 With those steps you can get a copy of the application on your local system.
 
-### Voraussetzungen 
+### Prerequisites 
 
 - .NET5
 
@@ -22,7 +22,7 @@ To be done.
 
 - JetBrains Rider & Visual Studio 2019
 
-## Versionierung
+## Versioning
 
 To be done.
 
@@ -33,7 +33,7 @@ To be done.
 
 ## License
 
-This project is licensed under the MIT License - for further details please have a look at the LICENSE.md file.
+This project is licensed under the MIT License - for further details please have a look at the LICENSE file.
 
 ## Credits
 
