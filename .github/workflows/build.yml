@@ -15,7 +15,7 @@ jobs:
       - name: sonarscan-dotnet
         uses: highbyte/sonarscan-dotnet@2.0
         with:
-            sonarProjectKey: svyshe
+            sonarProjectKey: SVYSHE_Jobb
             sonarProjectName: Jobb
             sonarOrganization: svyshe
         env:
