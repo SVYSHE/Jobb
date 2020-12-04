@@ -1,4 +1,6 @@
-name: Build
+
+
+
 on:
   push:
     branches:
@@ -41,3 +43,11 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"SVYSHE_Jobb" /o:"svyshe" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: sonarscan-dotnet
+        uses: highbyte/sonarscan-dotnet@2.0
+        with:
+            sonarProjectKey: svyshe
+            sonarProjectName: Jobb
+            sonarProjectOrganization: SVYSHE
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
