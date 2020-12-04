@@ -12,10 +12,12 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
       - name: sonarscan-dotnet
         uses: highbyte/sonarscan-dotnet@2.0
         with:
-          fetch-depth: '0'
           sonarProjectKey: SVYSHE_Jobb
           sonarProjectName: Jobb
           sonarOrganization: svyshe
