@@ -32,7 +32,7 @@ To be done.
 ## Authors
 
 - **René Panke**    - *Idea and initial creation steps*
-- **Thomas Knott**  - *Feature ideas and huge testing knowledge*
+- **Thomas Knott**  - *Feature ideas and testing knowledge*
 
 ## License
 
