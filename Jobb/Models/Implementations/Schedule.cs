@@ -36,7 +36,8 @@ namespace Jobb.Models.Implementations {
                     Period.Years => throw new PeriodValueOutOfBoundsException(GeneralLowerBound),
                     _ => throw new PeriodValueOutOfBoundsException("Please specify a matching period.")
                 };
-            } }
+            } 
+        }
         public Period Period { get; set; }
 
         public Schedule()
