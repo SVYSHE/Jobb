@@ -1,4 +1,5 @@
 ﻿using System.Timers;
+using Jobb.Exceptions;
 using Jobb.Utility;
 
 namespace Jobb.Models {
@@ -11,7 +12,10 @@ namespace Jobb.Models {
         protected AbstractJobb(AbstractJobbParameters parameters)
         {
             if (parameters is null)
-                throw new System.ArgumentNullException(nameof(parameters));
+                throw new InvalidJobbParametersException("Parameters are null! Instantiate them first.");
+            if (!AreParametersValid(parameters))
+                throw new InvalidJobbParametersException("JobbParameters cannot be null or empty!");
+
             this.parameters = parameters;
             parameters.ReturnCode = JobbReturnCode.Waiting;
         }
@@ -32,6 +36,18 @@ namespace Jobb.Models {
         {
             Execute();
         }
-        
+
+        protected static bool AreParametersValid(object obj) {
+            foreach (var pi in obj.GetType().GetProperties()) {
+                var value = pi.GetValue(obj);
+                // extend tested values as needed
+                if (value is null)
+                    return false;
+                if (value is string && string.IsNullOrWhiteSpace(value as string)) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

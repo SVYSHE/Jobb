@@ -1,4 +1,5 @@
 using System.IO;
+using Jobb.Exceptions;
 using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
@@ -15,6 +16,34 @@ namespace JobbTest.ModelTests {
             emptyDirectory = Path.Combine(LocalResourceTestDataPath, "EmptyDirectory");
             CreateFolder(emptyDirectory);
             CreateFile(Path.Combine(emptyDirectory, testFile));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidJobbParametersException))]
+        public void ExecuteJobbNullInParametersInvalid() {
+            var param = new EmptyDirectoryJobbParameters {
+                Name = "abc",
+                TargetDirectory = "abc",
+                Schedule = null
+            };
+            _ = new EmptyDirectoryJobb(param);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidJobbParametersException))]
+        public void ExecuteJobbEmptyStringInParametersInvalid() {
+            var param = new EmptyDirectoryJobbParameters {
+                Name = "",
+                TargetDirectory = "abc",
+                Schedule = null
+            };
+            _ = new EmptyDirectoryJobb(param);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidJobbParametersException))]
+        public void ExecuteJobbParametersAreNullInvalid() {
+            _ = new EmptyDirectoryJobb(null);
         }
 
         [TestMethod]

@@ -81,11 +81,11 @@ namespace JobbTest.ModelTests {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
 
             var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
-                Name = "",
+                Name = "a",
                 Schedule = new Schedule(),
-                SourceDirectory = "",
-                TargetDirectory = "",
-                FileName = ""
+                SourceDirectory = "a",
+                TargetDirectory = "a",
+                FileName = "a"
             });
 
             Assert.AreEqual(expected, copyFileJobb.Parameters.ReturnCode);
