@@ -31,8 +31,8 @@ To be done.
 
 ## Authors
 
-- **René Panke**    - *Idea and initial creation steps*
-- **Thomas Knott**  - *Feature ideas and testing knowledge*
+- **René Panke**    - *Idea and initial creation steps, actively developing*
+- **Thomas Knott**  - *Feature ideas and testing knowledge, actively developing*
 
 ## License
 
