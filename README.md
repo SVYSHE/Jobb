@@ -1,5 +1,6 @@
 ![Build](https://github.com/SVYSHE/Jobb/workflows/Build/badge.svg?branch=master)
 [![BCH compliance](https://bettercodehub.com/edge/badge/SVYSHE/Jobb?branch=master)](https://bettercodehub.com/)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SVYSHE_Jobb&metric=alert_status)](https://sonarcloud.io/dashboard?id=SVYSHE_Jobb)
 
 # Jobb
 
