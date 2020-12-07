@@ -5,14 +5,10 @@ using Jobb.Utility;
 namespace Jobb.Models.Implementations.Jobbs {
     public class CopyFileJobb : AbstractJobb
     {
-        public string SourceDirectory { get; set; }
-        public string TargetDirectory { get; set; }
-        public string FileName { get; set; }
+        public readonly CopyFileJobbParameters Parameters;
         
-        public CopyFileJobb(string name, Schedule schedule, string sourceDirectory, string targetDirectory, string fileName) : base(name, schedule) {
-            SourceDirectory = sourceDirectory;
-            TargetDirectory = targetDirectory;
-            FileName = fileName;
+        public CopyFileJobb(CopyFileJobbParameters parameters) : base(parameters) {
+            Parameters = parameters;
             SetTimer();
         }
 
@@ -20,13 +16,13 @@ namespace Jobb.Models.Implementations.Jobbs {
         {
             try
             {
-                File.Copy(Path.Combine(SourceDirectory, FileName), Path.Combine(TargetDirectory, FileName));
-                ReturnCode = JobbReturnCode.Success;
-                return ReturnCode;
+                File.Copy(Path.Combine(Parameters.SourceDirectory, Parameters.FileName), Path.Combine(Parameters.TargetDirectory, Parameters.FileName));
+                Parameters.ReturnCode = JobbReturnCode.Success;
+                return Parameters.ReturnCode;
             } catch (IOException ioEx) {
                 Console.WriteLine(ioEx);
-                ReturnCode = JobbReturnCode.Error;
-                return ReturnCode;
+                Parameters.ReturnCode = JobbReturnCode.Error;
+                return Parameters.ReturnCode;
             }
         }
     }

@@ -24,51 +24,95 @@ namespace JobbTest.ModelTests {
         public void GetNameTest() {
             string expected = "test";
 
-            var copyFileJobb = new CopyFileJobb("test", new Schedule(), fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb(
+                new CopyFileJobbParameters {
+                    Name = "test",
+                    Schedule = new Schedule(),
+                    SourceDirectory = fromDirectory,
+                    TargetDirectory = toDirectory,
+                    FileName = fileToCopy
+                }
+            );
 
-            Assert.AreEqual(expected, copyFileJobb.Name);
+            Assert.AreEqual(expected, copyFileJobb.Parameters.Name);
         }
 
         [TestMethod]
         public void GetSourceDirectoryTest() {
-            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
+                Name = "a",
+                Schedule = new Schedule(),
+                SourceDirectory = fromDirectory,
+                TargetDirectory = toDirectory,
+                FileName = fileToCopy
+            });
 
-            Assert.AreEqual(fromDirectory, copyFileJobb.SourceDirectory);
+            Assert.AreEqual(fromDirectory, copyFileJobb.Parameters.SourceDirectory);
         }
 
         [TestMethod]
         public void GetTargetDirectoryTest() {
-            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
+                Name = "a",
+                Schedule = new Schedule(),
+                SourceDirectory = fromDirectory,
+                TargetDirectory = toDirectory,
+                FileName = fileToCopy
+            });
 
-            Assert.AreEqual(toDirectory, copyFileJobb.TargetDirectory);
+            Assert.AreEqual(toDirectory, copyFileJobb.Parameters.TargetDirectory);
         }
 
         [TestMethod]
         public void GetFileNameDirectoryTest() {
-            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy);
+            var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
+                Name = "a",
+                Schedule = new Schedule(),
+                SourceDirectory = fromDirectory,
+                TargetDirectory = toDirectory,
+                FileName = fileToCopy
+            });
 
-            Assert.AreEqual(fileToCopy, copyFileJobb.FileName);
+            Assert.AreEqual(fileToCopy, copyFileJobb.Parameters.FileName);
         }
 
         [TestMethod]
         public void ReturnCodeIsSetToWaitingAfterConstructor() {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
 
-            var copyFileJobb = new CopyFileJobb("", new Schedule(), "", "", "");
+            var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
+                Name = "",
+                Schedule = new Schedule(),
+                SourceDirectory = "",
+                TargetDirectory = "",
+                FileName = ""
+            });
 
-            Assert.AreEqual(expected, copyFileJobb.ReturnCode);
+            Assert.AreEqual(expected, copyFileJobb.Parameters.ReturnCode);
         }
 
         [TestMethod]
         public void ExecuteCopyFileJobbSuccess() {
-            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, toDirectory, fileToCopy).Execute();
+            var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
+                Name = "a",
+                Schedule = new Schedule(),
+                SourceDirectory = fromDirectory,
+                TargetDirectory = toDirectory,
+                FileName = fileToCopy
+            }).Execute();
 
             Assert.AreEqual(JobbReturnCode.Success, copyFileJobb);
         }
 
         [TestMethod]
         public void ExecuteCopyFileJobbError() {
-            var copyFileJobb = new CopyFileJobb("a", new Schedule(), fromDirectory, "invalidFolderPath", fileToCopy).Execute();
+            var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
+                Name = "a",
+                Schedule = new Schedule(),
+                SourceDirectory = fromDirectory,
+                TargetDirectory = "invalidFolderPath",
+                FileName = fileToCopy
+            }).Execute();
 
             Assert.AreEqual(JobbReturnCode.Error, copyFileJobb);
         }

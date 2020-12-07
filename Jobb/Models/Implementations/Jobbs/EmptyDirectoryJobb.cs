@@ -3,34 +3,27 @@ using System.IO;
 using Jobb.Utility;
 
 namespace Jobb.Models.Implementations.Jobbs {
-    public class EmptyDirectoryJobb : AbstractJobb
-    {
-        public string TargetDirectory { get; set; }
+    public class EmptyDirectoryJobb : AbstractJobb {
+        public readonly EmptyDirectoryJobbParameters Parameters;
 
-        public EmptyDirectoryJobb(string name, Schedule schedule,string targetDirectory) : base(name, schedule)
-        {
-            TargetDirectory = targetDirectory;
+        public EmptyDirectoryJobb(EmptyDirectoryJobbParameters parameters) : base(parameters) {
+            Parameters = parameters;
             SetTimer();
         }
 
-        public override JobbReturnCode Execute()
-        {
-            try
-            {
-                string[] filesInDirectory = Directory.GetFiles(TargetDirectory);
-                foreach (string file in filesInDirectory)
-                {
+        public override JobbReturnCode Execute() {
+            try {
+                string[] filesInDirectory = Directory.GetFiles(Parameters.TargetDirectory);
+                foreach (string file in filesInDirectory) {
                     File.Delete(file);
                 }
 
-                ReturnCode = JobbReturnCode.Success;
-                return ReturnCode;
-            }
-            catch (IOException ioEx)
-            {
+                Parameters.ReturnCode = JobbReturnCode.Success;
+                return Parameters.ReturnCode;
+            } catch (IOException ioEx) {
                 Console.WriteLine(ioEx.Message);
-                ReturnCode = JobbReturnCode.Error;
-                return ReturnCode;
+                Parameters.ReturnCode = JobbReturnCode.Error;
+                return Parameters.ReturnCode;
             }
         }
     }

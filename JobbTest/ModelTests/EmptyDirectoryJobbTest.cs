@@ -6,8 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JobbTest.ModelTests {
     [TestClass]
-    public class EmptyDirectoryJobbTest : TestBase
-    {
+    public class EmptyDirectoryJobbTest : TestBase {
         private string emptyDirectory;
         private readonly string testFile = "emptyTestFile.txt";
 
@@ -19,9 +18,13 @@ namespace JobbTest.ModelTests {
         }
 
         [TestMethod]
-        public void ExecuteEmptyDirectoryJobbSuccess() {        
-            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), emptyDirectory).Execute();
-            
+        public void ExecuteEmptyDirectoryJobbSuccess() {
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "TestJob",
+                    Schedule = new Schedule(),
+                    TargetDirectory = emptyDirectory
+                }).Execute();
 
             Assert.AreEqual(JobbReturnCode.Success, deleteJob);
         }
@@ -36,45 +39,68 @@ namespace JobbTest.ModelTests {
                 CreateFile(Path.Combine(emptyDirectory, i.ToString()));
             }
 
-            var deleteJob = new EmptyDirectoryJobb("Testjobb", new Schedule(), LocalResourceTestDataPath).Execute();
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "Testjobb",
+                    Schedule = new Schedule(),
+                    TargetDirectory = LocalResourceTestDataPath
+                }).Execute();
 
             Assert.AreEqual(expected, deleteJob);
         }
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbError() {
-            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), "invalidFilePath").Execute();
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "TestJob",
+                    Schedule = new Schedule(),
+                    TargetDirectory = "invalidFilePath"
+                }).Execute();
+
             Assert.AreEqual(JobbReturnCode.Error, deleteJob);
         }
 
         [TestMethod]
-        public void ReturnCodeIsSetToWaitingAfterConstructor()
-        {
+        public void ReturnCodeIsSetToWaitingAfterConstructor() {
             const JobbReturnCode expected = JobbReturnCode.Waiting;
-            
-            var deleteJob = new EmptyDirectoryJobb("TestJob", new Schedule(), emptyDirectory); 
-            
-            Assert.AreEqual(expected,deleteJob.ReturnCode);
+
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "TestJob",
+                    Schedule = new Schedule(),
+                    TargetDirectory = emptyDirectory
+                });
+
+            Assert.AreEqual(expected, deleteJob.Parameters.ReturnCode);
         }
 
         [TestMethod]
-        public void GetNameTest()
-        {
+        public void GetNameTest() {
             const string expected = "Testname";
-            
-            var deleteJob = new EmptyDirectoryJobb("Testname", new Schedule(), emptyDirectory);
 
-            Assert.AreEqual(expected, deleteJob.Name);
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "Testname",
+                    Schedule = new Schedule(),
+                    TargetDirectory = emptyDirectory
+                });
+
+            Assert.AreEqual(expected, deleteJob.Parameters.Name);
         }
 
         [TestMethod]
-        public void GetTargetDirectoryTest()
-        {
+        public void GetTargetDirectoryTest() {
             string expected = LocalResourceTestDataPath;
-            
-            var deleteJob = new EmptyDirectoryJobb("Test", new Schedule(), LocalResourceTestDataPath);
-            
-            Assert.AreEqual(expected, deleteJob.TargetDirectory);
+
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "Test",
+                    Schedule = new Schedule(),
+                    TargetDirectory = LocalResourceTestDataPath
+                });
+
+            Assert.AreEqual(expected, deleteJob.Parameters.TargetDirectory);
         }
     }
 }

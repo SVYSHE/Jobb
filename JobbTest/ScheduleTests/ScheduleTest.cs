@@ -41,17 +41,30 @@ namespace JobbTest.ScheduleTests {
         [DataRow(Period.Weeks, 51)]
         [DataRow(Period.Months, 11)]
         [DataRow(Period.Years, 1)]
-        public void ExecuteEmptyDirectoryJobbWithValidSchedulePeriods(Period period, int unit) => _ = new Schedule(period, unit);
+        public void ExecuteEmptyDirectoryJobbWithValidSchedulePeriods(Period period, int unit) {
+            try {
+                _ = new Schedule(period, unit);
+            } catch (PeriodValueOutOfBoundsException e) {
+                Assert.Fail($"Expected no {e.GetType().Name} to the thrown");
+            }
+        }
 
         [TestMethod]
         public void ExecuteEmptyDirectoryJobbAfterSetScheduleSuccess() {
             var schedule = new Schedule(Period.Seconds, 1);
             var emptyDirectory = Path.Combine(LocalResourceTestDataPath, "EmptyDirectory");
             CreateFolder(emptyDirectory);
-            var deleteJob = new EmptyDirectoryJobb("TestJob", schedule, emptyDirectory);
-            Assert.AreEqual(JobbReturnCode.Waiting, deleteJob.ReturnCode);
+
+            var deleteJob = new EmptyDirectoryJobb(
+                new EmptyDirectoryJobbParameters {
+                    Name = "TestJob",
+                    Schedule = schedule,
+                    TargetDirectory = emptyDirectory
+                });
+
+            Assert.AreEqual(JobbReturnCode.Waiting, deleteJob.Parameters.ReturnCode);
             Thread.Sleep(2000);
-            Assert.AreEqual(JobbReturnCode.Success, deleteJob.ReturnCode);
+            Assert.AreEqual(JobbReturnCode.Success, deleteJob.Parameters.ReturnCode);
         }
     }
 }
