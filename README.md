@@ -1,5 +1,5 @@
-[![BCH compliance](https://bettercodehub.com/edge/badge/SVYSHE/Jobb?branch=master)](https://bettercodehub.com/)
 ![Build](https://github.com/SVYSHE/Jobb/workflows/Build/badge.svg?branch=master)
+[![BCH compliance](https://bettercodehub.com/edge/badge/SVYSHE/Jobb?branch=master)](https://bettercodehub.com/)
 
 # Jobb
 
