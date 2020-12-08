@@ -12,6 +12,7 @@ namespace Jobb.Utility
         private const ulong WeekInMilliseconds = 604_800_016;
         private const ulong MonthInMilliseconds = 2_629_800_000;
         private const ulong YearInMilliseconds = 31_557_600_000;
+
         public static ulong GetMilliseconds(Schedule schedule)
         {
             return schedule.Period switch
