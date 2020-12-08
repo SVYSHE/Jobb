@@ -3,7 +3,7 @@ using System.IO;
 using Jobb.Utility;
 
 namespace Jobb.Models.Implementations.Jobbs {
-    public class CopyFileJobb : AbstractJobb
+    public class CopyFileJobb : AbstractJobb, IDisposable
     {
         public readonly CopyFileJobbParameters Parameters;
         
@@ -24,6 +24,11 @@ namespace Jobb.Models.Implementations.Jobbs {
                 Parameters.ReturnCode = JobbReturnCode.Error;
                 return Parameters.ReturnCode;
             }
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
