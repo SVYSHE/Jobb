@@ -46,7 +46,7 @@ namespace Jobb.Models.Implementations {
             Unit = unit;
         }
 
-        private string GetExceptionMessage(uint lowerBound, uint upperBound = 0) {
+        private static string GetExceptionMessage(uint lowerBound, uint upperBound = 0) {
             return upperBound > 0 ? $"Invalid value for Period. Value has to be between <{lowerBound + 1}> and <{upperBound - 1}>."
             : $"Invalid value for Period. Value has to be at least <{lowerBound + 1}>.";
         }
