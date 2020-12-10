@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Runtime.Loader;
 using System.Threading.Tasks.Dataflow;
 using Terminal.Gui;
@@ -46,29 +47,40 @@ namespace Jobb
             var top = Application.Top;
             top.Add(menu);
             
-            var win = new Window("MyApp")
+            var win = new Window()
             {
-                X = 1,
-                Y = 2,
-                Width = Dim.Fill() - 1,
-                Height = Dim.Fill() - 1,
+                X = 0,
+                Y = 1,
+                Width = Dim.Fill(),
+                Height = Dim.Fill(),
             };
+            
             top.Add(win);
             IList dict = new List<string>();
             dict.Add("Hello");
             dict.Add("Goodbye");
-            var jobbList = new ListView(dict) {Height = 20, Width = 80};
+            var jobbListFrame = new FrameView("Jobb Types") {Height = Dim.Percent(90), Width = Dim.Percent(30), X = 1, Y = 3};
+            var jobbList = new ListView(dict) {Height = Dim.Fill(), Width = Dim.Fill()};
             jobbList.SelectedItemChanged += jobbList_OnSelectedChanged;
-
-            win.Add(jobbList);
-            ColorScheme customScheme = new ColorScheme();
-            customScheme.Focus = Attribute.Make(Color.BrightYellow,Color.Cyan);
-            customScheme.HotFocus = Attribute.Make(Color.Black, Color.Cyan);
-            customScheme.HotNormal = Attribute.Make(Color.Gray, Color.Red);
-            customScheme.Normal = Attribute.Make(Color.Green, Color.Black);
+            jobbListFrame.Add(jobbList);
+            win.Add(jobbListFrame);
+            var jobbPropertiesFrame = new FrameView("Jobb Properties"){X = Pos.Center(), Y = 3, Height = Dim.Percent(90), Width = Dim.Fill() - 1 };
+            var jobbProperties = new View(){Width = Dim.Fill(), Height = Dim.Fill()};
+            jobbPropertiesFrame.Add(jobbProperties);
+            //win.Add(jobbPropertiesFrame);
+            
+            var customScheme = new ColorScheme
+            {
+                Focus = Attribute.Make(Color.BrightYellow, Color.Cyan),
+                HotFocus = Attribute.Make(Color.Black, Color.Cyan),
+                HotNormal = Attribute.Make(Color.Gray, Color.Red),
+                Normal = Attribute.Make(Color.Green, Color.Black)
+            };
             win.ColorScheme = customScheme;
+            
             Application.Run();
         }
+
 
         // X1: Methods that will be called from Menu
         private static void OpenPreferencesView()
@@ -96,7 +108,6 @@ namespace Jobb
 
         private static void jobbList_OnSelectedChanged(ListViewItemEventArgs e)
         {
-            
         }
         
         

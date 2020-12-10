@@ -3,7 +3,8 @@ using System.IO;
 using Jobb.Utility;
 
 namespace Jobb.Models.Implementations.Jobbs {
-    public class EmptyDirectoryJobb : AbstractJobb {
+    public class EmptyDirectoryJobb : AbstractJobb, IDisposable
+    {
         public readonly EmptyDirectoryJobbParameters Parameters;
 
         public EmptyDirectoryJobb(EmptyDirectoryJobbParameters parameters) : base(parameters) {
@@ -25,6 +26,11 @@ namespace Jobb.Models.Implementations.Jobbs {
                 Parameters.ReturnCode = JobbReturnCode.Error;
                 return Parameters.ReturnCode;
             }
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
