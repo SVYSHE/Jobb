@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="ReactiveUI" Version="13.0.1" />
       <PackageReference Include="Terminal.Gui" Version="0.90.3" />
     </ItemGroup>
 
