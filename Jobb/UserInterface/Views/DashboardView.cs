@@ -11,6 +11,7 @@ namespace Jobb.UserInterface.Views
     {
         #region Properties
         private readonly CompositeDisposable _disposable = new CompositeDisposable();
+        
         #endregion
         
         #region Accessor/Modifier
@@ -27,6 +28,7 @@ namespace Jobb.UserInterface.Views
         {
             ViewModel = viewModel;
             var jobbList = JobbList();
+            var jobbProperties = JobbPropertiesLabel(jobbList);
         }
         #endregion
 
@@ -72,10 +74,12 @@ namespace Jobb.UserInterface.Views
                 Y = Pos.Top(previous) + 1,
                 Width = 40
             };
-            ViewModel
-                .WhenAnyValue(x => x.PropertyNames)
-                .BindTo(jobbPropertiesLabel, x => x.Text)
-                .DisposeWith(_disposable);
+            // ViewModel
+            //     .WhenAnyValue(x => x.PropertyNames)
+            //     .BindTo(jobbPropertiesLabel, x => x.Text)
+            //     
+            Add(jobbPropertiesLabel);
+            return jobbPropertiesLabel;
         }
         
         
