@@ -9,6 +9,7 @@ namespace Jobb.Models.Implementations.Jobbs {
 
         public EmptyDirectoryJobb(EmptyDirectoryJobbParameters parameters) : base(parameters) {
             Parameters = parameters;
+            Parameters.JobbType = JobbType.EmptyDirectory;
             SetTimer();
         }
 

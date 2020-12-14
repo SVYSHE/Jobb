@@ -6,5 +6,7 @@ namespace Jobb.Models {
         public string Name { get; set; }
         public Schedule Schedule { get; set; }
         public JobbReturnCode ReturnCode { get; set; }
+        
+        public JobbType JobbType { get; set; }
     }
 }

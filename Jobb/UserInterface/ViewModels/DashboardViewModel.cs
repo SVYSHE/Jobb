@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using ReactiveUI;
 
@@ -11,10 +11,10 @@ namespace Jobb.UserInterface.ViewModels
 
         public DashboardViewModel()
         {
-            var addisSoos = this.WhenAnyValue(
-                x => x._selectedItem,
-                _selectedItem
-            );
+            // var addisSoos = this.WhenAnyValue(
+            //     x => x._selectedItem,
+            //     _selectedItem
+            // );
         }
         
         [IgnoreDataMember]
