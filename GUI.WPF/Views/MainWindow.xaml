@@ -8,17 +8,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1400">
     <Grid>
-        <StackPanel>
-            <Button Content="Add New Jobb" Command="{Binding AddJobbCommand}" FontSize="14"/>
-            <DataGrid ItemsSource="{Binding Jobbs}" AutoGenerateColumns="False" FontSize="14">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Parameters.Name}" />
-                    <DataGridTextColumn Header="Jobb Type" Binding="{Binding TypeName}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Interval" Binding="{Binding Interval}" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Status" Binding="{Binding Parameters.ReturnCode}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Error" Binding="{Binding Parameters.Error.Message}" IsReadOnly="True"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button Content="Add New Jobb" FontSize="30" Command="{Binding JobbsViewModel.AddJobbCommand}" Grid.Column="0" Grid.Row="0"/>
+        <Button Content="NotImplemented" FontSize="14" Grid.Column="0" Grid.Row="1"/>
+        <Button Content="NotImplemented" FontSize="14" Grid.Column="0" Grid.Row="2"/>
+        <local:JobbsView DataContext="{Binding JobbsViewModel}" Grid.Column="1" Grid.RowSpan="3"/>
     </Grid>
 </Window>

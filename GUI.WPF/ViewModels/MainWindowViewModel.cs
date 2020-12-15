@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using System.Windows.Input;
-using GUI.WPF.Utility;
 using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
@@ -11,16 +8,10 @@ namespace GUI.WPF.ViewModels {
     public class MainWindowViewModel : ViewModelBase {
         private string resourcePath;
 
-        private ObservableCollection<JobbViewModel> jobbs;
-        public ObservableCollection<JobbViewModel> Jobbs { get => jobbs; set { jobbs = value; OnPropertyChanged(); } }
-
-        private readonly DelegateCommand addJobbCommand;
-        public ICommand AddJobbCommand => addJobbCommand;
+        public JobbsViewModel JobbsViewModel { get; }
 
         public MainWindowViewModel() {
-            addJobbCommand = new DelegateCommand(OnAddJobb, CanAddJobb);
-
-            Jobbs = new ObservableCollection<JobbViewModel>();
+            JobbsViewModel = new JobbsViewModel();
 
             // create test data path
             CreateTestDataFolder();
@@ -33,12 +24,12 @@ namespace GUI.WPF.ViewModels {
             var job5 = new CopyFileJobb(new CopyFileJobbParameters { Name = "Jobb 5", Schedule = new Schedule(Period.Seconds, 6), SourceDirectory = "PseudoSource", TargetDirectory = "PseudoTarget", FileName = "GibtEsNicht.txt" });
             var job6 = new CopyFileJobb(new CopyFileJobbParameters { Name = "Jobb 6", Schedule = new Schedule(Period.Seconds, 3), SourceDirectory = "PseudoSource", TargetDirectory = "PseudoTarget", FileName = "GibtEsNicht.txt" });
 
-            Jobbs.Add(new JobbViewModel(job1));
-            Jobbs.Add(new JobbViewModel(job2));
-            Jobbs.Add(new JobbViewModel(job3));
-            Jobbs.Add(new JobbViewModel(job4));
-            Jobbs.Add(new JobbViewModel(job5));
-            Jobbs.Add(new JobbViewModel(job6));
+            JobbsViewModel.Jobbs.Add(new JobbViewModel(job1));
+            JobbsViewModel.Jobbs.Add(new JobbViewModel(job2));
+            JobbsViewModel.Jobbs.Add(new JobbViewModel(job3));
+            JobbsViewModel.Jobbs.Add(new JobbViewModel(job4));
+            JobbsViewModel.Jobbs.Add(new JobbViewModel(job5));
+            JobbsViewModel.Jobbs.Add(new JobbViewModel(job6));
         }
 
         private void CreateTestDataFolder() {
@@ -48,16 +39,5 @@ namespace GUI.WPF.ViewModels {
                 Directory.CreateDirectory(resourcePath);
             }
         }
-
-        #region commands
-        private bool CanAddJobb(object commandParameter) {
-            return true;
-        }
-
-        private void OnAddJobb(object commandParameter) {
-            var job = new EmptyDirectoryJobb(new EmptyDirectoryJobbParameters { Name = "Added Jobb", Schedule = new Schedule(Period.Seconds, 3), TargetDirectory = resourcePath });
-            Jobbs.Add(new JobbViewModel(job));
-        }
-        #endregion
     }
 }
