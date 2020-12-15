@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Jobb.Exceptions;
@@ -16,7 +15,9 @@ namespace Jobb.Controller
         private SimpleUi Ui { get; set; }
         private List<AbstractJobb> JobbList { get; set; }
 
-        private Controller(List<AbstractJobb> jobbList)
+        private bool _keepRunning = true;
+
+        public Controller(List<AbstractJobb> jobbList)
         {
             JobbList = jobbList;
             Ui = new SimpleUi();
@@ -26,10 +27,18 @@ namespace Jobb.Controller
         {
             //TODO: LoadJobbs
             PrintStartScreen();
-            while (true)
+            while (_keepRunning)
             {
-                PrintOptions();    
+                PrintOptions();
             }
+
+            MinimizeProgram();
+            //QuitProgram();
+        }
+
+        private void MinimizeProgram()
+        {
+            //TODO: Minimizing console.
         }
 
         private void PrintOptions()
@@ -60,8 +69,8 @@ namespace Jobb.Controller
                     RemoveJobb();
                     break;
                 case 5:
-                    QuitProgram();
-                    break;
+                    _keepRunning = false;
+                    return;
                 default:
                     throw new InvalidOperationException("Please choose a valid option between the numbers 1-5!");
             }
@@ -69,8 +78,13 @@ namespace Jobb.Controller
 
         private void PrintCurrentlyActiveJobbs()
         {
-            //TODO
-            throw new NotImplementedException();
+            foreach (var jobb in JobbList)
+            {
+                Ui.Print($"Name: {jobb.Parameters.Name}");
+                Ui.Print($"Time Period: {jobb.Parameters.Schedule.Period.ToString()}");
+                Ui.Print($"Interval: {jobb.Parameters.Schedule.Unit.ToString()}");
+                Ui.Print($"Current state: {jobb.Parameters.ReturnCode.ToString()}");
+            }
         }
 
         private void RemoveJobb()
@@ -80,6 +94,7 @@ namespace Jobb.Controller
             {
                 Ui.Print($"[{i}] {JobbList[i].Parameters.Name}");
             }
+
             string chosenJobb = Ui.ReadLine();
             int chosenJobbIndex = int.Parse(chosenJobb);
             JobbList[chosenJobbIndex].StopTimer();
@@ -95,7 +110,7 @@ namespace Jobb.Controller
 
         private void PrintStartScreen()
         {
-            Version? version = Assembly.GetExecutingAssembly().GetName().Version;
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
             if (version is not null)
             {
                 Ui.Print($"Jobb V{version.ToString()}");
@@ -109,7 +124,7 @@ namespace Jobb.Controller
             Ui.PrintWithColor("-> CopyFile - [SourceDirectory, TargetDirectory, FileName]", ConsoleColor.Green);
         }
 
-        private AbstractJobb CreateJobb()
+        private void CreateJobb()
         {
             AbstractJobb newJobb = null;
             Ui.PrintWithColor("Enter the Jobb's name you want to create:", ConsoleColor.Green);
@@ -124,7 +139,8 @@ namespace Jobb.Controller
                     newJobb = CreateEmptyDirectoryJobb();
                     break;
                 default:
-                    throw new InvalidOperationException("You provided an invalid Jobb name. Please see the available Jobbs for valid Jobb names.");
+                    throw new InvalidOperationException(
+                        "You provided an invalid Jobb name. Please see the available Jobbs for valid Jobb names.");
             }
 
             Ui.PrintWithColor("Do you wish to execute the Jobb right now?", ConsoleColor.Green);
@@ -133,7 +149,7 @@ namespace Jobb.Controller
                 newJobb?.Execute();
             }
 
-            return newJobb;
+            JobbList.Add(newJobb);
         }
 
         private EmptyDirectoryJobb CreateEmptyDirectoryJobb()
