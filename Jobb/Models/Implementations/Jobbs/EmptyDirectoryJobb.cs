@@ -4,7 +4,7 @@ using Jobb.Utility;
 
 namespace Jobb.Models.Implementations.Jobbs {
     public class EmptyDirectoryJobb : AbstractJobb {
-        public readonly EmptyDirectoryJobbParameters Parameters;
+        public new EmptyDirectoryJobbParameters Parameters { get; }
 
         public EmptyDirectoryJobb(EmptyDirectoryJobbParameters parameters) : base(parameters) {
             Parameters = parameters;
@@ -19,8 +19,10 @@ namespace Jobb.Models.Implementations.Jobbs {
                 }
 
                 Parameters.ReturnCode = JobbReturnCode.Success;
+                Parameters.Error = new Exception("");
                 return Parameters.ReturnCode;
             } catch (IOException ioEx) {
+                Parameters.Error = ioEx;
                 Console.WriteLine(ioEx.Message);
                 Parameters.ReturnCode = JobbReturnCode.Error;
                 return Parameters.ReturnCode;

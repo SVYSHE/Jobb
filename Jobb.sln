@@ -1,8 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobb", "Jobb\Jobb.csproj", "{0215F129-78B5-45DF-87B8-C843D2A288BB}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jobb", "Jobb\Jobb.csproj", "{0215F129-78B5-45DF-87B8-C843D2A288BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobbTest", "JobbTest\JobbTest.csproj", "{695B9FA6-B791-49BE-8B0E-8C79C3C32001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JobbTest", "JobbTest\JobbTest.csproj", "{695B9FA6-B791-49BE-8B0E-8C79C3C32001}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI.WPF", "GUI.WPF\GUI.WPF.csproj", "{A2DE1CAB-91DB-4FE2-A226-E1F348223945}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +23,15 @@ Global
 		{695B9FA6-B791-49BE-8B0E-8C79C3C32001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{695B9FA6-B791-49BE-8B0E-8C79C3C32001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{695B9FA6-B791-49BE-8B0E-8C79C3C32001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2DE1CAB-91DB-4FE2-A226-E1F348223945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2DE1CAB-91DB-4FE2-A226-E1F348223945}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2DE1CAB-91DB-4FE2-A226-E1F348223945}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2DE1CAB-91DB-4FE2-A226-E1F348223945}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97A41358-94F4-4D5A-B3CB-10FBB6F44A99}
 	EndGlobalSection
 EndGlobal

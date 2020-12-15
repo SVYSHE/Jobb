@@ -1,11 +1,12 @@
-﻿using System.Timers;
+﻿using System;
+using System.Timers;
 using Jobb.Exceptions;
 using Jobb.Utility;
 
 namespace Jobb.Models {
     public abstract class AbstractJobb
     {
-        private readonly AbstractJobbParameters parameters;
+        public AbstractJobbParameters Parameters { get; set; }
 
         protected Timer Timer;
 
@@ -19,7 +20,7 @@ namespace Jobb.Models {
             {
                 throw new InvalidJobbParametersException("JobbParameters cannot be null or empty!");
             }
-            this.parameters = parameters;
+            Parameters = parameters;
             parameters.ReturnCode = JobbReturnCode.Waiting;
         }
 
@@ -27,7 +28,7 @@ namespace Jobb.Models {
 
         public virtual void SetTimer() {
             Timer = new Timer {
-                Interval = MillisecondsCalculator.GetMilliseconds(parameters.Schedule),
+                Interval = MillisecondsCalculator.GetMilliseconds(Parameters.Schedule),
                 AutoReset = true
             };
             Timer.Elapsed += Timer_Elapsed;
