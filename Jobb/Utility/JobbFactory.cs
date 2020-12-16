@@ -23,22 +23,35 @@ namespace Jobb.Utility
 
         public static List<string> GetJobbParameter(JobbType jobbType)
         {
+            var jobbParameter = new List<string>();
+            jobbParameter = AddAbstractParameter(jobbParameter);
+            
             return jobbType switch
             {
-                JobbType.CopyFile => GetCopyFileParameter(),
-                JobbType.EmptyDirectory => GetEmptyDirectoryParameter(),
+                JobbType.CopyFile => AddCopyFileParameter(jobbParameter),
+                JobbType.EmptyDirectory => AddEmptyDirectoryParameter(jobbParameter),
                 _ => throw new InvalidExpressionException($"Invalid jobb type was passed. <{jobbType}>")
             };
         }
 
-        private static List<string> GetEmptyDirectoryParameter()
+        private static List<string> AddAbstractParameter(List<string> jobbParameter)
         {
-            return new List<string>() {"Target Directory"};
+            jobbParameter.Add("Name");
+            jobbParameter.Add("Period");
+            jobbParameter.Add("Unit");
+            return jobbParameter;
         }
 
-        private static List<string> GetCopyFileParameter()
+        private static List<string> AddEmptyDirectoryParameter(List<string> jobbParameter)
         {
-            return new List<string>() {"Source Directory", "Target Directory", "File Name"};
+            jobbParameter.AddRange(new List<string>() {"Target Directory"});
+            return jobbParameter;
+        }
+
+        private static List<string> AddCopyFileParameter(List<string> jobbParameter)
+        {
+            jobbParameter.AddRange(new List<string>() {"Source Directory", "Target Directory", "File Name"});
+            return jobbParameter;
         }
 
         private static EmptyDirectoryJobb CreateEmptyDirectoryJobb(IReadOnlyList<object> parameterValues)
@@ -57,7 +70,7 @@ namespace Jobb.Utility
             return jobb;
         }
 
-        private static void SetAbstractParameters(object[] parameterValues, AbstractJobb jobbToReturn)
+        private static void SetAbstractParameters(IReadOnlyList<object> parameterValues, AbstractJobb jobbToReturn)
         {
             jobbToReturn.Parameters.Name = parameterValues[0].ToString();
             jobbToReturn.Parameters.Schedule =
