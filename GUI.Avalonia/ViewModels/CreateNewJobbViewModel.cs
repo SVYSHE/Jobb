@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using GUI.Avalonia.Utility;
 using GUI.Avalonia.Views;
@@ -7,13 +8,13 @@ using Jobb.Utility;
 namespace GUI.Avalonia.ViewModels {
     public class CreateNewJobbViewModel : ViewModelBase {
         private ObservableCollection<string> parameterNames;
-        public ObservableCollection<string> ParameterNames { get => parameterNames; set { parameterNames = value; OnPropertyChanged(); } }
+        public ObservableCollection<string> ParameterNames { get => parameterNames; set { parameterNames = value; OnPropertyChanged(); CreateParameterValues(); } }
 
-        private ObservableCollection<object> parameterValues;
-        public ObservableCollection<object> ParameterValues { get => parameterValues; set { parameterValues = value; OnPropertyChanged(); } }
+        private ObservableCollection<ParameterValue> parameterValues;
+        public ObservableCollection<ParameterValue> ParameterValues { get => parameterValues; set { parameterValues = value; OnPropertyChanged(); } }
 
         private JobbType jobbType;
-        public JobbType JobbType { get => jobbType; set { jobbType = value; OnPropertyChanged(); } }
+        public JobbType JobbType { get => jobbType; set { jobbType = value; OnPropertyChanged(); ParameterNames = new ObservableCollection<string>(JobbFactory.GetJobbParameter(JobbType)); } }
 
         private readonly DelegateCommand createJobbCommand;
         public ICommand CreateJobbCommand => createJobbCommand;
@@ -25,13 +26,23 @@ namespace GUI.Avalonia.ViewModels {
 
             this.jobbViewModels = jobbViewModels;
 
-            ParameterValues = new ObservableCollection<object>();
+
+            ParameterValues = new ObservableCollection<ParameterValue>();
             ParameterNames = new ObservableCollection<string>();
+
+            JobbType = JobbType.EmptyDirectory;
 
             var createNewJobbView = new CreateNewJobbView {
                 DataContext = this
             };
             createNewJobbView.Show();
+        }
+
+        private void CreateParameterValues() {
+            ParameterValues.Clear();
+            foreach (var name in ParameterNames) {
+                ParameterValues.Add(new ParameterValue { Value = "" });
+            }
         }
 
         #region commands
@@ -40,11 +51,17 @@ namespace GUI.Avalonia.ViewModels {
         }
 
         private void OnCreateJobb(object commandParameter) {
-            /*
-            var newJobb = JobbFactory.CreateNewJobb(JobType);
-            jobbViewModels.Add(newJobb);
-            */
+            var valueList = new List<string>();
+            foreach (var parameterValue in ParameterValues) {
+                valueList.Add(parameterValue.Value);
+            }
+            var newJobb = JobbFactory.GetJobb(JobbType, valueList);
+            jobbViewModels.Add(new JobbViewModel(newJobb));
         }
         #endregion
+    }
+
+    public class ParameterValue {
+        public string Value { get; set; }
     }
 }

@@ -43,25 +43,10 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBox Text="{Binding}" Watermark="###"/>
+                    <TextBox Text="{Binding Value}" Watermark="###"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Grid.Column="0" Grid.Row="2">
-            <TextBox Text="Interval" IsReadOnly="True" IsHitTestVisible="False"/>
-            <TextBox Text="Value" IsReadOnly="True" IsHitTestVisible="False"/>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="2">
-            <DropDown Height="26" SelectedItem="{Binding ScheduleInterval}">
-                <DropDownItem Content="Seconds"/>
-                <DropDownItem Content="Minutes"/>
-                <DropDownItem Content="Hours"/>
-                <DropDownItem Content="Days"/>
-                <DropDownItem Content="Weeks"/>
-                <DropDownItem Content="Years"/>
-            </DropDown>
-            <TextBox Watermark="1-999" Text="{Binding ScheduleValue}"/>
-        </StackPanel>
         <Button Margin="5" Content="Create" Command="{Binding CreateJobbCommand}" FontSize="14" Grid.Column="0" Grid.Row="3" Height="30"/>
         <Button Margin="5" Content="Cancel" FontSize="14" Grid.Column="1" Grid.Row="3" Height="30"/>
     </Grid>
