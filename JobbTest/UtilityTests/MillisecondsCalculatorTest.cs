@@ -13,9 +13,9 @@ namespace JobbTest.UtilityTests {
         [DataRow(Period.Weeks, (ulong)604_800_016)]
         [DataRow(Period.Months, (ulong)2_629_800_000)]
         [DataRow(Period.Years, (ulong)31_557_600_000)]
-        public void GetMilliseconds_WithDifferentValues_Valid(Period period, ulong expectedMS) {
+        public void GetMilliseconds_WithDifferentValues_Valid(Period period, ulong expectedMs) {
             var ms = MillisecondsCalculator.GetMilliseconds(new Schedule(period, 1));
-            Assert.AreEqual(expectedMS, ms);
+            Assert.AreEqual(expectedMs, ms);
         }
     }
 }

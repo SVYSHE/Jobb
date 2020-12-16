@@ -7,6 +7,7 @@ using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
 using Jobb.UserInterface.SimpleUserInterface;
 using Jobb.Utility;
+using static Jobb.Utility.ConsoleUtility;
 
 namespace Jobb.Controller
 {
@@ -25,6 +26,7 @@ namespace Jobb.Controller
 
         public void Run()
         {
+            DeleteHeaderBarOfConsole();
             //TODO: LoadJobbs
             PrintStartScreen();
             while (_keepRunning)
@@ -32,13 +34,22 @@ namespace Jobb.Controller
                 PrintOptions();
             }
 
-            MinimizeProgram();
-            //QuitProgram();
+            //MinimizeProgram();
+            QuitProgram();
         }
 
         private void MinimizeProgram()
         {
-            //TODO: Minimizing console.
+            //TODO
+            
+        }
+
+        private void DeleteHeaderBarOfConsole()
+        {
+            //TODO: Remove because it will fail under any other OS than windows.
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_CLOSE, MY_BFCOMMAND);
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MINIMIZE, MY_BFCOMMAND);
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MAXIMIZE, MY_BFCOMMAND);
         }
 
         private void PrintOptions()
@@ -113,7 +124,7 @@ namespace Jobb.Controller
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             if (version is not null)
             {
-                Ui.Print($"Jobb V{version.ToString()}");
+                Ui.Print($"Jobb V{version}");
             }
         }
 

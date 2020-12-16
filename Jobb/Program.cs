@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Jobb.Models;
-using static Jobb.Controller.Controller;
 
 namespace Jobb
 {
