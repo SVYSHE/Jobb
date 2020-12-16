@@ -4,27 +4,60 @@ using System.Runtime.CompilerServices;
 using Jobb.Models.Implementations;
 using Jobb.Utility;
 
-namespace Jobb.Models {
-    public class AbstractJobbParameters {
-        public string Name { get; set; }
-        public Schedule Schedule { get; set; }
-        public JobbReturnCode ReturnCode { get; set; }
-        
-        public JobbType JobbType { get; set; }
-        public class AbstractJobbParameters : INotifyPropertyChanged {
+namespace Jobb.Models
+{
+    public class AbstractJobbParameters : INotifyPropertyChanged
+    {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private string name;
-        private Schedule schedule;
-        private JobbReturnCode returnCode;
-        private Exception error = new Exception("");
+        private string _name;
+        private Schedule _schedule;
+        private JobbReturnCode _returnCode;
+        private Exception _error = new Exception("");
+        public JobbType JobbType { get; set; }
+        
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public string Name { get => name; set { name = value; OnPropertyChanged(); } }
-        public Schedule Schedule { get => schedule; set { schedule = value; OnPropertyChanged(); } }
-        public JobbReturnCode ReturnCode { get => returnCode; set { returnCode = value; OnPropertyChanged(); } }
-        public Exception Error { get => error; set { error = value; OnPropertyChanged(); } }
+        public Schedule Schedule
+        {
+            get => _schedule;
+            set
+            {
+                _schedule = value;
+                OnPropertyChanged();
+            }
+        }
 
-        protected void OnPropertyChanged([CallerMemberName] string name = null) {
+        public JobbReturnCode ReturnCode
+        {
+            get => _returnCode;
+            set
+            {
+                _returnCode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Exception Error
+        {
+            get => _error;
+            set
+            {
+                _error = value;
+                OnPropertyChanged();
+            }
+        }
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }

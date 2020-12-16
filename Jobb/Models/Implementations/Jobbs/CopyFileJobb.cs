@@ -4,7 +4,7 @@ using Jobb.Utility;
 
 namespace Jobb.Models.Implementations.Jobbs
 {
-    public class CopyFileJobb : AbstractJobb, IDisposable
+    public class CopyFileJobb : AbstractJobb
     {
         public new CopyFileJobbParameters Parameters { get; }
 
