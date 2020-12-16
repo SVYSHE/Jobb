@@ -9,7 +9,11 @@
              Width="300"
              MaxHeight="500"
              MaxWidth="400"
-             x:Class="GUI.Avalonia.Views.CreateNewJobbView">
+             x:Class="GUI.Avalonia.Views.CreateNewJobbView"
+             xmlns:local="clr-namespace:GUI.Avalonia.Utility">
+    <Window.Resources>
+        <local:EnumToStringConverter x:Key="EnumConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,25 +21,29 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height=".5*"/>
+            <RowDefinition Height=".5*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height=".5*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="New Jobb" FontSize="14" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ItemsControl Items="{Binding ParameterNames}" Grid.Column="0" Grid.Row="1">
+        <ListBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" SelectedItems="{Binding Path=JobbType, Converter={StaticResource EnumConverter}}">
+            <ListBoxItem Content="EmptyDirectory"/>
+            <ListBoxItem Content="CopyFile"/>
+        </ListBox>
+        <ItemsControl Items="{Binding Parameters}" Grid.Column="0" Grid.Row="3">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBox Text="{Binding}" IsReadOnly="True" IsHitTestVisible="False"/>
+                    <TextBox Text="{Binding Name}" IsReadOnly="True" IsHitTestVisible="False"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl Items="{Binding ParameterValues}" Grid.Column="1" Grid.Row="1">
+        <ItemsControl Items="{Binding Parameters}" Grid.Column="1" Grid.Row="3">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel/>
@@ -47,7 +55,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Button Margin="5" Content="Create" Command="{Binding CreateJobbCommand}" FontSize="14" Grid.Column="0" Grid.Row="3" Height="30"/>
-        <Button Margin="5" Content="Cancel" FontSize="14" Grid.Column="1" Grid.Row="3" Height="30"/>
+        <Button Margin="5" Content="Create" Command="{Binding CreateJobbCommand}" FontSize="14" Grid.Column="0" Grid.Row="4" Height="30"/>
+        <Button Margin="5" Content="Cancel" FontSize="14" Grid.Column="1" Grid.Row="4" Height="30"/>
     </Grid>
 </Window>
