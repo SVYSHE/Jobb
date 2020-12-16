@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using GUI.Avalonia.Utility;
 using GUI.Avalonia.Views;
+using Jobb.Utility;
 
 namespace GUI.Avalonia.ViewModels {
     public class CreateNewJobbViewModel : ViewModelBase {
@@ -11,8 +12,8 @@ namespace GUI.Avalonia.ViewModels {
         private ObservableCollection<object> parameterValues;
         public ObservableCollection<object> ParameterValues { get => parameterValues; set { parameterValues = value; OnPropertyChanged(); } }
 
-        // public JobbType jobbType;
-        // public JobbType JobbType { get => jobbType; set { jobbType = value; OnPropertyChanged(); } }
+        private JobbType jobbType;
+        public JobbType JobbType { get => jobbType; set { jobbType = value; OnPropertyChanged(); } }
 
         private readonly DelegateCommand createJobbCommand;
         public ICommand CreateJobbCommand => createJobbCommand;
