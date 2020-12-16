@@ -1,5 +1,4 @@
-﻿using System;
-using System.Timers;
+﻿using System.Timers;
 using Jobb.Exceptions;
 using Jobb.Utility;
 
@@ -24,6 +23,15 @@ namespace Jobb.Models {
             parameters.ReturnCode = JobbReturnCode.Waiting;
         }
 
+        /// <summary>
+        /// Special constructor, used to extract property names and
+        /// file name of the extending jobb.
+        /// </summary>
+        protected AbstractJobb()
+        {
+            Parameters = new AbstractJobbParameters();
+        }
+
         public abstract JobbReturnCode Execute();
 
         public virtual void SetTimer() {
@@ -34,6 +42,11 @@ namespace Jobb.Models {
             Timer.Elapsed += Timer_Elapsed;
             Timer.Enabled = true;
             Timer.Start();
+        }
+
+        public void StopTimer()
+        {
+            Timer.Enabled = false;
         }
 
         protected virtual void Timer_Elapsed(object source, ElapsedEventArgs e)

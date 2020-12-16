@@ -1,0 +1,139 @@
+﻿@startuml
+package Models <<Folder>> 
+{
+    abstract class AbstractJobbParameters
+    {
+        +Name: string
+        +Schedule: Schedule
+        +ReturnCode: JobbReturnCode
+    }
+    
+    abstract class AbstractJobb
+    {
+        #Timer: System.Timers.Timer
+        -_parameters: AbstractJobbParameters
+        #AbstractJobb(parameters: AbstractJobbParameters): AbstractJobb
+        {abstract} +Execute(): JobbReturnCode
+        +SetTimer(): void
+        #AreParametersValid(obj object): bool
+        #TimerElapsed(source: object, e: ElapsedEventArgs)
+    }
+    
+    package Implementations <<Folder>>
+    {
+        package Jobbs <<Folder>>
+        {
+            class CopyFileJobb
+            {
+                +Parameters: CopyFileJobbParameters
+                +CopyFileJobb(parameters: CopyFileJobbParameters): CopyFileJobb
+                +Dispose(): void
+                +Execute(): JobbReturnCode
+            }
+            
+            class CopyFileJobbParameters
+            {
+                +FileName: string
+                +SourceDirectory: string
+                +TargetDirectory: string
+                +Dispose(): void
+            }
+            
+            class EmptyDirectoryJobb
+            {
+                +Parameters: EmptyDirectoryJobbParameters
+                +EmptyDirectoryJobb(parameters: EmptyDirectoryJobbParameters): EmptyDirectoryJobb
+                +Dispose(): void
+                +Execute(): JobbReturnCode
+            }
+            
+            class EmptyDirectoryJobbParameters
+            {
+                +TargetDirectory: string
+                +Dispose(): void
+            }
+        }
+        
+        class Schedule
+        {
+            +Period: Period
+            +Unit: int
+            -_unit: int
+            {static}-GetExceptionMessage: string
+            +Schedule(): Schedule
+            +Schedule(period: Period, unit: int): Schedule
+        }
+    }
+}
+
+package Utility <<Folder>>
+{
+    enum JobbReturnCode
+    {
+        Success
+        Error
+        Waiting
+    }
+    
+    class MillisecondsCalculator
+    {
+        {static}+GetMilliseconds(schedule: Schedule): ulong
+    }
+    
+    enum Period
+    {
+        Seconds
+        Minutes
+        Hours
+        Days
+        Weeks
+        Months
+        Years
+    }
+}
+
+package Exceptions <<Folder>>
+{
+    class PeriodValueOutOfBoundsException <<Serializable>>
+    {
+        +PeriodOutOfBoundException(): PeriodOutOfBoundException
+        +PeriodOutOfBoundException(message: string): PeriodOutOfBoundException
+        +PeriodOutOfBoundException(message: string, innerException: Exception): PeriodOutOfBoundException
+        #PeriodOutOfBoundException(info: SerializationInfo, context: StreamingContext): PeriodOutOfBoundException
+    }
+    
+    class InvalidJobbParametersException <<Serializable>>
+    {
+        +InvalidJobbParametersException(): InvalidJobbParametersException
+        +InvalidJobbParametersException(message: string): InvalidJobbParametersException
+        +InvalidJobbParametersException(message: string, innerException: Exception): InvalidJobbParametersException
+        #InvalidJobbParametersException(info: SerializationInfo, context: StreamingContext): InvalidJobbParametersException
+    }
+}
+
+class Exception{}
+
+interface IDisposable
+{
+    +Dispose: void
+}
+
+AbstractJobb o-- AbstractJobbParameters
+
+AbstractJobb <|-- CopyFileJobb
+AbstractJobbParameters <|-- CopyFileJobbParameters
+IDisposable <|-- CopyFileJobbParameters
+CopyFileJobb o-- CopyFileJobbParameters
+
+AbstractJobb <|-- EmptyDirectoryJobb
+AbstractJobbParameters <|-- EmptyDirectoryJobbParameters
+IDisposable <|-- EmptyDirectoryJobbParameters
+EmptyDirectoryJobb o-- EmptyDirectoryJobbParameters
+
+AbstractJobbParameters o-- Schedule
+
+Exception <|-- InvalidJobbParametersException
+Exception <|-- PeriodValueOutOfBoundsException
+
+
+@enduml

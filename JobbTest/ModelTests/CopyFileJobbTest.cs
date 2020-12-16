@@ -7,17 +7,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JobbTest.ModelTests {
     [TestClass]
     public class CopyFileJobbTest : TestBase {
-        private string fromDirectory;
-        private string toDirectory;
+        private string _fromDirectory;
+        private string _toDirectory;
         private readonly string fileToCopy = "helloWorld.txt";
 
         [TestInitialize]
         public void Init() {
-            fromDirectory = Path.Combine(LocalResourceTestDataPath, "fromDirectory");
-            CreateFolder(fromDirectory);
-            CreateFile(Path.Combine(fromDirectory, fileToCopy));
-            toDirectory = Path.Combine(LocalResourceTestDataPath, "toDirectory");
-            CreateFolder(toDirectory);
+            _fromDirectory = Path.Combine(LocalResourceTestDataPath, "fromDirectory");
+            CreateFolder(_fromDirectory);
+            CreateFile(Path.Combine(_fromDirectory, fileToCopy));
+            _toDirectory = Path.Combine(LocalResourceTestDataPath, "toDirectory");
+            CreateFolder(_toDirectory);
         }
 
         [TestMethod]
@@ -28,8 +28,8 @@ namespace JobbTest.ModelTests {
                 new CopyFileJobbParameters {
                     Name = "test",
                     Schedule = new Schedule(),
-                    SourceDirectory = fromDirectory,
-                    TargetDirectory = toDirectory,
+                    SourceDirectory = _fromDirectory,
+                    TargetDirectory = _toDirectory,
                     FileName = fileToCopy
                 }
             );
@@ -42,12 +42,12 @@ namespace JobbTest.ModelTests {
             var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
                 Name = "a",
                 Schedule = new Schedule(),
-                SourceDirectory = fromDirectory,
-                TargetDirectory = toDirectory,
+                SourceDirectory = _fromDirectory,
+                TargetDirectory = _toDirectory,
                 FileName = fileToCopy
             });
 
-            Assert.AreEqual(fromDirectory, copyFileJobb.Parameters.SourceDirectory);
+            Assert.AreEqual(_fromDirectory, copyFileJobb.Parameters.SourceDirectory);
         }
 
         [TestMethod]
@@ -55,12 +55,12 @@ namespace JobbTest.ModelTests {
             var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
                 Name = "a",
                 Schedule = new Schedule(),
-                SourceDirectory = fromDirectory,
-                TargetDirectory = toDirectory,
+                SourceDirectory = _fromDirectory,
+                TargetDirectory = _toDirectory,
                 FileName = fileToCopy
             });
 
-            Assert.AreEqual(toDirectory, copyFileJobb.Parameters.TargetDirectory);
+            Assert.AreEqual(_toDirectory, copyFileJobb.Parameters.TargetDirectory);
         }
 
         [TestMethod]
@@ -68,8 +68,8 @@ namespace JobbTest.ModelTests {
             var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
                 Name = "a",
                 Schedule = new Schedule(),
-                SourceDirectory = fromDirectory,
-                TargetDirectory = toDirectory,
+                SourceDirectory = _fromDirectory,
+                TargetDirectory = _toDirectory,
                 FileName = fileToCopy
             });
 
@@ -96,8 +96,8 @@ namespace JobbTest.ModelTests {
             var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
                 Name = "a",
                 Schedule = new Schedule(),
-                SourceDirectory = fromDirectory,
-                TargetDirectory = toDirectory,
+                SourceDirectory = _fromDirectory,
+                TargetDirectory = _toDirectory,
                 FileName = fileToCopy
             }).Execute();
 
@@ -109,7 +109,7 @@ namespace JobbTest.ModelTests {
             var copyFileJobb = new CopyFileJobb(new CopyFileJobbParameters {
                 Name = "a",
                 Schedule = new Schedule(),
-                SourceDirectory = fromDirectory,
+                SourceDirectory = _fromDirectory,
                 TargetDirectory = "invalidFolderPath",
                 FileName = fileToCopy
             }).Execute();
