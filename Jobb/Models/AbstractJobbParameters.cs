@@ -6,7 +6,7 @@ using Jobb.Utility;
 
 namespace Jobb.Models
 {
-    public class AbstractJobbParameters : INotifyPropertyChanged
+    public abstract class AbstractJobbParameters : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

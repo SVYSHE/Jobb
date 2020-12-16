@@ -23,15 +23,6 @@ namespace Jobb.Models {
             parameters.ReturnCode = JobbReturnCode.Waiting;
         }
 
-        /// <summary>
-        /// Special constructor, used to extract property names and
-        /// file name of the extending jobb.
-        /// </summary>
-        protected AbstractJobb()
-        {
-            Parameters = new AbstractJobbParameters();
-        }
-
         public abstract JobbReturnCode Execute();
 
         public virtual void SetTimer() {
