@@ -2,8 +2,8 @@
 using Avalonia.Markup.Xaml;
 
 namespace GUI.Avalonia.Views {
-    public class JobbsView : UserControl {
-        public JobbsView() {
+    public class CreateNewJobbView : Window {
+        public CreateNewJobbView() {
             InitializeComponent();
         }
 

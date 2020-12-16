@@ -1,9 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using GUI.Avalonia.Utility;
-using Jobb.Models.Implementations;
-using Jobb.Models.Implementations.Jobbs;
-using Jobb.Utility;
 
 namespace GUI.Avalonia.ViewModels {
     public class JobbsViewModel : ViewModelBase {
@@ -25,8 +22,7 @@ namespace GUI.Avalonia.ViewModels {
         }
 
         private void OnAddJobb(object commandParameter) {
-            var job = new EmptyDirectoryJobb(new EmptyDirectoryJobbParameters { Name = "Added Jobb", Schedule = new Schedule(Period.Seconds, 3), TargetDirectory = "pseudoPath" });
-            Jobbs.Add(new JobbViewModel(job));
+            _ = new CreateNewJobbViewModel(Jobbs);
         }
         #endregion
     }
