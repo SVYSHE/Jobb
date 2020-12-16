@@ -3,6 +3,6 @@
     public enum JobbType
     {
         EmptyDirectory = 1,
-        CopyFile = 2
+        CopyFile = 2,
     }
 }
