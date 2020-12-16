@@ -7,7 +7,7 @@ using static Jobb.Utility.ScheduleUtility;
 
 namespace Jobb.Utility
 {
-    public class JobbFactory
+    public static class JobbFactory
     {
         public static AbstractJobb GetJobb(JobbType jobbType, params object[] parameterValues)
         {
@@ -17,53 +17,67 @@ namespace Jobb.Utility
                 JobbType.EmptyDirectory => CreateEmptyDirectoryJobb(parameterValues),
                 _ => throw new InvalidOperationException()
             };
-            SetAbstractParameters(parameterValues, jobbToReturn);
             return jobbToReturn;
         }
 
         public static List<string> GetJobbParameter(JobbType jobbType)
         {
+            var jobbParameter = new List<string>();
+            jobbParameter = AddAbstractParameter(jobbParameter);
+
             return jobbType switch
             {
-                JobbType.CopyFile => GetCopyFileParameter(),
-                JobbType.EmptyDirectory => GetEmptyDirectoryParameter(),
+                JobbType.CopyFile => AddCopyFileParameter(jobbParameter),
+                JobbType.EmptyDirectory => AddEmptyDirectoryParameter(jobbParameter),
                 _ => throw new InvalidExpressionException($"Invalid jobb type was passed. <{jobbType}>")
             };
         }
 
-        private static List<string> GetEmptyDirectoryParameter()
+        private static List<string> AddAbstractParameter(List<string> jobbParameter)
         {
-            return new List<string>() {"Target Directory"};
+            jobbParameter.Add("Name");
+            jobbParameter.Add("Period");
+            jobbParameter.Add("Unit");
+            return jobbParameter;
         }
 
-        private static List<string> GetCopyFileParameter()
+        private static List<string> AddEmptyDirectoryParameter(List<string> jobbParameter)
         {
-            return new List<string>() {"Source Directory", "Target Directory", "File Name"};
+            jobbParameter.AddRange(new List<string>() {"Target Directory"});
+            return jobbParameter;
+        }
+
+        private static List<string> AddCopyFileParameter(List<string> jobbParameter)
+        {
+            jobbParameter.AddRange(new List<string>() {"Source Directory", "Target Directory", "File Name"});
+            return jobbParameter;
         }
 
         private static EmptyDirectoryJobb CreateEmptyDirectoryJobb(IReadOnlyList<object> parameterValues)
         {
-            var jobb = new EmptyDirectoryJobb(new EmptyDirectoryJobbParameters());
-            jobb.Parameters.TargetDirectory = parameterValues[3].ToString();
-            return jobb;
+            var parameters = new EmptyDirectoryJobbParameters();
+            parameters = (EmptyDirectoryJobbParameters) SetAbstractParameters(parameterValues, parameters);
+            parameters.TargetDirectory = parameterValues[3].ToString();
+            return new EmptyDirectoryJobb(parameters);
         }
 
         private static CopyFileJobb CreateCopyFileJobb(IReadOnlyList<object> parameterValues)
         {
-            var jobb = new CopyFileJobb(new CopyFileJobbParameters());
-            jobb.Parameters.SourceDirectory = parameterValues[3].ToString();
-            jobb.Parameters.TargetDirectory = parameterValues[4].ToString();
-            jobb.Parameters.FileName = parameterValues[5].ToString();
-            return jobb;
+            var parameters = new CopyFileJobbParameters();
+            parameters = (CopyFileJobbParameters) SetAbstractParameters(parameterValues, parameters);
+            parameters.SourceDirectory = parameterValues[3].ToString();
+            parameters.TargetDirectory = parameterValues[4].ToString();
+            parameters.FileName = parameterValues[5].ToString();
+            return new CopyFileJobb(parameters);
         }
 
-        private static void SetAbstractParameters(object[] parameterValues, AbstractJobb jobbToReturn)
+        private static AbstractJobbParameters SetAbstractParameters(IReadOnlyList<object> parameterValues,
+            AbstractJobbParameters parameters)
         {
-            jobbToReturn.Parameters.Name = parameterValues[0].ToString();
-            jobbToReturn.Parameters.Schedule =
+            parameters.Name = parameterValues[0].ToString();
+            parameters.Schedule =
                 GetScheduleFromString(parameterValues[1].ToString(), parameterValues[2].ToString());
+            return parameters;
         }
-        
-        
     }
 }
