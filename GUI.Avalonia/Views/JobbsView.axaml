@@ -1,0 +1,16 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="GUI.Avalonia.Views.JobbsView">
+    <DataGrid Items="{Binding Jobbs}" AutoGenerateColumns="False" FontSize="14">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Name" Binding="{Binding Parameters.Name}" />
+            <DataGridTextColumn Header="Jobb Type" Binding="{Binding TypeName}" IsReadOnly="True" />
+            <DataGridTextColumn Header="Interval" Binding="{Binding Interval}" IsReadOnly="True" />
+            <DataGridTextColumn Header="Status" Binding="{Binding Parameters.ReturnCode}" IsReadOnly="True"/>
+            <DataGridTextColumn Header="Error" Binding="{Binding Parameters.Error.Message}" IsReadOnly="True"/>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

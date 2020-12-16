@@ -1,12 +1,7 @@
-﻿using System;
-
 namespace Jobb.Models.Implementations.Jobbs {
-    public class EmptyDirectoryJobbParameters : AbstractJobbParameters, IDisposable
-    {
-        public string TargetDirectory { get; set; }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+    public class EmptyDirectoryJobbParameters : AbstractJobbParameters{
+        private string targetDirectory;
+
+        public string TargetDirectory { get => targetDirectory; set { targetDirectory = value; OnPropertyChanged(); } }
     }
 }

@@ -5,7 +5,7 @@ using Jobb.Utility;
 namespace Jobb.Models {
     public abstract class AbstractJobb
     {
-        public AbstractJobbParameters Parameters { get; }
+        public AbstractJobbParameters Parameters { get; set; }
 
         protected Timer Timer;
 
