@@ -15,15 +15,6 @@ namespace Jobb.Models.Implementations.Jobbs
             SetTimer();
         }
 
-        /// <summary>
-        /// Special constructor used to read the property names of
-        /// this class.
-        /// </summary>
-        public CopyFileJobb()
-        {
-            Parameters = new CopyFileJobbParameters();
-        }
-
         public override JobbReturnCode Execute()
         {
             try
