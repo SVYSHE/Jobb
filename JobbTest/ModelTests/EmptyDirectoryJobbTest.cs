@@ -8,14 +8,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace JobbTest.ModelTests {
     [TestClass]
     public class EmptyDirectoryJobbTest : TestBase {
-        private string emptyDirectory;
+        private string _emptyDirectory;
         private readonly string testFile = "emptyTestFile.txt";
 
         [TestInitialize]
         public void Init() {
-            emptyDirectory = Path.Combine(LocalResourceTestDataPath, "EmptyDirectory");
-            CreateFolder(emptyDirectory);
-            CreateFile(Path.Combine(emptyDirectory, testFile));
+            _emptyDirectory = Path.Combine(LocalResourceTestDataPath, "EmptyDirectory");
+            CreateFolder(_emptyDirectory);
+            CreateFile(Path.Combine(_emptyDirectory, testFile));
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace JobbTest.ModelTests {
                 new EmptyDirectoryJobbParameters {
                     Name = "TestJob",
                     Schedule = new Schedule(),
-                    TargetDirectory = emptyDirectory
+                    TargetDirectory = _emptyDirectory
                 }).Execute();
 
             Assert.AreEqual(JobbReturnCode.Success, deleteJob);
@@ -65,7 +65,7 @@ namespace JobbTest.ModelTests {
             CreateFolder(testFolder);
 
             for (int i = 0; i < 3; i++) {
-                CreateFile(Path.Combine(emptyDirectory, i.ToString()));
+                CreateFile(Path.Combine(_emptyDirectory, i.ToString()));
             }
 
             var deleteJob = new EmptyDirectoryJobb(
@@ -98,7 +98,7 @@ namespace JobbTest.ModelTests {
                 new EmptyDirectoryJobbParameters {
                     Name = "TestJob",
                     Schedule = new Schedule(),
-                    TargetDirectory = emptyDirectory
+                    TargetDirectory = _emptyDirectory
                 });
 
             Assert.AreEqual(expected, deleteJob.Parameters.ReturnCode);
@@ -112,7 +112,7 @@ namespace JobbTest.ModelTests {
                 new EmptyDirectoryJobbParameters {
                     Name = "Testname",
                     Schedule = new Schedule(),
-                    TargetDirectory = emptyDirectory
+                    TargetDirectory = _emptyDirectory
                 });
 
             Assert.AreEqual(expected, deleteJob.Parameters.Name);
