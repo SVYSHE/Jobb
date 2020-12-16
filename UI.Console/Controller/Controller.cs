@@ -7,7 +7,6 @@ using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
 using Jobb.Utility;
 using UserInterface.SimpleUserInterface;
-using static UI.Console.Utility.ConsoleUtility;
 
 namespace UI.Console.Controller
 {
@@ -26,7 +25,6 @@ namespace UI.Console.Controller
 
         public void Run()
         {
-            DeleteHeaderBarOfConsole();
             //TODO: LoadJobbs
             PrintStartScreen();
             while (_keepRunning)
@@ -42,14 +40,6 @@ namespace UI.Console.Controller
         {
             //TODO
             
-        }
-
-        private void DeleteHeaderBarOfConsole()
-        {
-            //TODO: Remove because it will fail under any other OS than windows.
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_CLOSE, MY_BFCOMMAND);
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MINIMIZE, MY_BFCOMMAND);
-            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MAXIMIZE, MY_BFCOMMAND);
         }
 
         private void PrintOptions()
