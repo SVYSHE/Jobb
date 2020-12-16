@@ -2,8 +2,7 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace Jobb.Utility
-{
+namespace UI.Console.Utility {
     public static class ConsoleUtility
     {
         #region General

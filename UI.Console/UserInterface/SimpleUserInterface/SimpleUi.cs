@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jobb.UserInterface.SimpleUserInterface
+namespace UserInterface.SimpleUserInterface
 {
     /// <summary>
     /// This class is a way to output to the user at first glance.

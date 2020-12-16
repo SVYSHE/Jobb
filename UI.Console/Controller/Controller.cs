@@ -5,11 +5,11 @@ using Jobb.Exceptions;
 using Jobb.Models;
 using Jobb.Models.Implementations;
 using Jobb.Models.Implementations.Jobbs;
-using Jobb.UserInterface.SimpleUserInterface;
 using Jobb.Utility;
-using static Jobb.Utility.ConsoleUtility;
+using UserInterface.SimpleUserInterface;
+using static UI.Console.Utility.ConsoleUtility;
 
-namespace Jobb.Controller
+namespace UI.Console.Controller
 {
     public class Controller
     {
