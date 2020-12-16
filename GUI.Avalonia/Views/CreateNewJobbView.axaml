@@ -27,7 +27,7 @@
             <RowDefinition Height=".5*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="New Jobb" FontSize="14" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" SelectedItems="{Binding Path=JobbType, Converter={StaticResource EnumConverter}}">
+        <ListBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" SelectionMode="Single" SelectedItem="{Binding Path=JobbType, Converter={StaticResource EnumConverter}}">
             <ListBoxItem Content="EmptyDirectory"/>
             <ListBoxItem Content="CopyFile"/>
         </ListBox>

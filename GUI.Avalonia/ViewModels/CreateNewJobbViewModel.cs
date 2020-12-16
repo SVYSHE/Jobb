@@ -11,7 +11,7 @@ namespace GUI.Avalonia.ViewModels {
         public ObservableCollection<Parameter> Parameters { get => parameters; set { parameters = value; OnPropertyChanged(); } }
 
         private JobbType jobbType;
-        public JobbType JobbType { get => jobbType; set { jobbType = value; OnPropertyChanged(); CreateParameterValues(); } }
+        public JobbType JobbType { get => jobbType; set { if (value != 0) { jobbType = value; OnPropertyChanged(); CreateParameterValues(); } } }
 
         private readonly DelegateCommand createJobbCommand;
         public ICommand CreateJobbCommand => createJobbCommand;
