@@ -12,7 +12,6 @@ namespace UI.Console.Controller
 {
     public class Controller
     {
-        private SimpleUi Ui { get; set; }
         private List<AbstractJobb> JobbList { get; set; }
 
         private bool _keepRunning = true;
@@ -20,7 +19,6 @@ namespace UI.Console.Controller
         public Controller(List<AbstractJobb> jobbList)
         {
             JobbList = jobbList;
-            Ui = new SimpleUi();
         }
 
         public void Run()
@@ -31,25 +29,18 @@ namespace UI.Console.Controller
             {
                 PrintOptions();
             }
-
-            //MinimizeProgram();
             QuitProgram();
         }
-
-        private void MinimizeProgram()
-        {
-            //TODO
-            
-        }
+        
 
         private void PrintOptions()
         {
-            Ui.PrintWithColor("[1] - Show available Jobbs", ConsoleColor.Cyan);
-            Ui.PrintWithColor("[2] - Show currently active Jobbs", ConsoleColor.White);
-            Ui.PrintWithColor("[3] - Create new Jobb.", ConsoleColor.Cyan);
-            Ui.PrintWithColor("[4] - Remove Jobb", ConsoleColor.White);
-            Ui.PrintWithColor("[5] - Quit Program", ConsoleColor.Cyan);
-            EvaluateOptionInput(Ui.ReadLine());
+            SimpleUi.PrintWithColor("[1] - Show available Jobbs", ConsoleColor.Cyan);
+            SimpleUi.PrintWithColor("[2] - Show currently active Jobbs", ConsoleColor.White);
+            SimpleUi.PrintWithColor("[3] - Create new Jobb.", ConsoleColor.Cyan);
+            SimpleUi.PrintWithColor("[4] - Remove Jobb", ConsoleColor.White);
+            SimpleUi.PrintWithColor("[5] - Quit Program", ConsoleColor.Cyan);
+            EvaluateOptionInput(SimpleUi.ReadLine());
         }
 
         private void EvaluateOptionInput(string optionInput)
@@ -81,29 +72,29 @@ namespace UI.Console.Controller
         {
             foreach (var jobb in JobbList)
             {
-                Ui.Print($"Name: {jobb.Parameters.Name}");
-                Ui.Print($"Time Period: {jobb.Parameters.Schedule.Period.ToString()}");
-                Ui.Print($"Interval: {jobb.Parameters.Schedule.Unit.ToString()}");
-                Ui.Print($"Current state: {jobb.Parameters.ReturnCode.ToString()}");
+                SimpleUi.Print($"Name: {jobb.Parameters.Name}");
+                SimpleUi.Print($"Time Period: {jobb.Parameters.Schedule.Period.ToString()}");
+                SimpleUi.Print($"Interval: {jobb.Parameters.Schedule.Unit.ToString()}");
+                SimpleUi.Print($"Current state: {jobb.Parameters.ReturnCode.ToString()}");
             }
         }
 
         private void RemoveJobb()
         {
-            Ui.PrintWithColor("Press the number of the Jobb you wish to remove: ", ConsoleColor.Green);
+            SimpleUi.PrintWithColor("Press the number of the Jobb you wish to remove: ", ConsoleColor.Green);
             for (int i = 0; i < JobbList.Count; i++)
             {
-                Ui.Print($"[{i}] {JobbList[i].Parameters.Name}");
+                SimpleUi.Print($"[{i}] {JobbList[i].Parameters.Name}");
             }
 
-            string chosenJobb = Ui.ReadLine();
+            string chosenJobb = SimpleUi.ReadLine();
             int chosenJobbIndex = int.Parse(chosenJobb);
             JobbList[chosenJobbIndex].StopTimer();
             JobbList.RemoveAt(chosenJobbIndex);
-            Ui.Print("Job removed.");
+            SimpleUi.Print("Job removed.");
         }
 
-        private void QuitProgram()
+        private static void QuitProgram()
         {
             //TODO: Save Jobbs.
             Environment.Exit(0);
@@ -114,22 +105,22 @@ namespace UI.Console.Controller
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             if (version is not null)
             {
-                Ui.Print($"Jobb V{version}");
+                SimpleUi.Print($"Jobb V{version}");
             }
         }
 
         private void PrintAvailableJobbs()
         {
-            Ui.PrintWithColor("Available Jobbs are (Format: -> <JobbName> - [Parameters]):", ConsoleColor.Green);
-            Ui.PrintWithColor("-> EmptyDirectory - [TargetDirectory]", ConsoleColor.Green);
-            Ui.PrintWithColor("-> CopyFile - [SourceDirectory, TargetDirectory, FileName]", ConsoleColor.Green);
+            SimpleUi.PrintWithColor("Available Jobbs are (Format: -> <JobbName> - [Parameters]):", ConsoleColor.Green);
+            SimpleUi.PrintWithColor("-> EmptyDirectory - [TargetDirectory]", ConsoleColor.Green);
+            SimpleUi.PrintWithColor("-> CopyFile - [SourceDirectory, TargetDirectory, FileName]", ConsoleColor.Green);
         }
 
         private void CreateJobb()
         {
             AbstractJobb newJobb = null;
-            Ui.PrintWithColor("Enter the Jobb's name you want to create:", ConsoleColor.Green);
-            string jobbName = Ui.ReadLine();
+            SimpleUi.PrintWithColor("Enter the Jobb's name you want to create:", ConsoleColor.Green);
+            string jobbName = SimpleUi.ReadLine();
             jobbName = jobbName.ToLower();
             switch (jobbName)
             {
@@ -144,8 +135,8 @@ namespace UI.Console.Controller
                         "You provided an invalid Jobb name. Please see the available Jobbs for valid Jobb names.");
             }
 
-            Ui.PrintWithColor("Do you wish to execute the Jobb right now?", ConsoleColor.Green);
-            if (Ui.ParseYesNo(Ui.ReadLine()))
+            SimpleUi.PrintWithColor("Do you wish to execute the Jobb right now?", ConsoleColor.Green);
+            if (SimpleUi.ParseYesNo(SimpleUi.ReadLine()))
             {
                 newJobb?.Execute();
             }
@@ -156,8 +147,8 @@ namespace UI.Console.Controller
         private EmptyDirectoryJobb CreateEmptyDirectoryJobb()
         {
             (string name, Period period, int unit) = ParseAbstractParameters();
-            Ui.PrintWithColor("Enter the directory you wish to empty:", ConsoleColor.Green);
-            string targetDirectoryAsString = Ui.ReadLine();
+            SimpleUi.PrintWithColor("Enter the directory you wish to empty:", ConsoleColor.Green);
+            string targetDirectoryAsString = SimpleUi.ReadLine();
             var parameters = new EmptyDirectoryJobbParameters
             {
                 Name = name, Schedule = new Schedule(period, unit), TargetDirectory = targetDirectoryAsString
@@ -168,12 +159,12 @@ namespace UI.Console.Controller
         private CopyFileJobb CreateCopyFileJobb()
         {
             (string name, Period period, int unit) = ParseAbstractParameters();
-            Ui.PrintWithColor("Enter the source directory:", ConsoleColor.Green);
-            string sourceDirectoryAsString = Ui.ReadLine();
-            Ui.PrintWithColor("Enter the target directory:", ConsoleColor.Green);
-            string targetDirectoryAsString = Ui.ReadLine();
-            Ui.PrintWithColor("Enter the new file name:", ConsoleColor.Green);
-            string newFileName = Ui.ReadLine();
+            SimpleUi.PrintWithColor("Enter the source directory:", ConsoleColor.Green);
+            string sourceDirectoryAsString = SimpleUi.ReadLine();
+            SimpleUi.PrintWithColor("Enter the target directory:", ConsoleColor.Green);
+            string targetDirectoryAsString = SimpleUi.ReadLine();
+            SimpleUi.PrintWithColor("Enter the new file name:", ConsoleColor.Green);
+            string newFileName = SimpleUi.ReadLine();
 
             var parameters = new CopyFileJobbParameters
             {
@@ -188,13 +179,13 @@ namespace UI.Console.Controller
 
         private Tuple<string, Period, int> ParseAbstractParameters()
         {
-            Ui.PrintWithColor("Enter a name for your Jobb: ", ConsoleColor.Green);
-            string name = Ui.ReadLine();
-            Ui.PrintWithColor("Enter a period the job should run in: (Seconds, Minutes, Hours, ..", ConsoleColor.Green);
-            string periodAsString = Ui.ReadLine();
+            SimpleUi.PrintWithColor("Enter a name for your Jobb: ", ConsoleColor.Green);
+            string name = SimpleUi.ReadLine();
+            SimpleUi.PrintWithColor("Enter a period the job should run in: (Seconds, Minutes, Hours, ..", ConsoleColor.Green);
+            string periodAsString = SimpleUi.ReadLine();
             Period period = GetPeriodFromString(periodAsString);
-            Ui.PrintWithColor("Enter a value how often this jobb should be triggered:", ConsoleColor.Green);
-            int unit = int.Parse(Ui.ReadLine());
+            SimpleUi.PrintWithColor("Enter a value how often this jobb should be triggered:", ConsoleColor.Green);
+            int unit = int.Parse(SimpleUi.ReadLine());
             return new Tuple<string, Period, int>(name, period, unit);
         }
 
