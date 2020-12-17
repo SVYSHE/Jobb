@@ -1,0 +1,62 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             MinHeight="600"
+             MinWidth="300"
+             Height="600"
+             Width="300"
+             MaxHeight="800"
+             MaxWidth="400"
+             x:Class="GUI.Avalonia.Views.CreateNewJobbView"
+             xmlns:local="clr-namespace:GUI.Avalonia.Utility;assembly=GUI.Avalonia">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height=".5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".5*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="New Jobb" FontSize="14" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ListBox Items="{Binding SelectedJobbType, Converter={local:EnumToCollectionConverter}, Mode=OneTime}" SelectedItem="{Binding SelectedJobbType, Converter={local:StringToEnumConverter}}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value, Converter={local:StringToEnumConverter}}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ItemsControl Items="{Binding Parameters}" Grid.Column="0" Grid.Row="2">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding Name}" IsReadOnly="True" IsHitTestVisible="False"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl Items="{Binding Parameters}" Grid.Column="1" Grid.Row="2">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBox Text="{Binding Value}" Watermark="###"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Text="{Binding Path=ErrorMessage}" TextWrapping="Wrap" FontSize="14" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" />
+        <Button Margin="5" Content="Create" Command="{Binding CreateJobbCommand}" FontSize="14" Grid.Column="0" Grid.Row="4" Height="30"/>
+        <Button Margin="5" Content="Cancel" Command="{Binding CancelCreationCommand}" FontSize="14" Grid.Column="1" Grid.Row="4" Height="30"/>
+    </Grid>
+</Window>
