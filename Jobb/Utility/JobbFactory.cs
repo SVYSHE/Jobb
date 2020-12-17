@@ -9,7 +9,7 @@ namespace Jobb.Utility
 {
     public static class JobbFactory
     {
-        public static AbstractJobb GetJobb(JobbType jobbType, List<string> parameterValues)
+        public static AbstractJobb GetJobb(JobbType jobbType, params object[] parameterValues)
         {
             AbstractJobb jobbToReturn = jobbType switch
             {
@@ -53,30 +53,29 @@ namespace Jobb.Utility
             return jobbParameter;
         }
 
-        private static EmptyDirectoryJobb CreateEmptyDirectoryJobb(List<string> parameterValues)
+        private static EmptyDirectoryJobb CreateEmptyDirectoryJobb(params object[] parameterValues)
         {
             var parameters = new EmptyDirectoryJobbParameters();
-            parameters = (EmptyDirectoryJobbParameters) SetAbstractParameters(parameterValues, parameters);
-            parameters.TargetDirectory = parameterValues[3];
+            parameters = (EmptyDirectoryJobbParameters) SetAbstractParameters(parameters, parameterValues);
+            parameters.TargetDirectory = parameterValues[3].ToString();
             return new EmptyDirectoryJobb(parameters);
         }
 
-        private static CopyFileJobb CreateCopyFileJobb(List<string> parameterValues)
+        private static CopyFileJobb CreateCopyFileJobb(params object[] parameterValues)
         {
             var parameters = new CopyFileJobbParameters();
-            parameters = (CopyFileJobbParameters) SetAbstractParameters(parameterValues, parameters);
-            parameters.SourceDirectory = parameterValues[3];
-            parameters.TargetDirectory = parameterValues[4];
-            parameters.FileName = parameterValues[5];
+            parameters = (CopyFileJobbParameters) SetAbstractParameters(parameters, parameterValues);
+            parameters.SourceDirectory = parameterValues[3].ToString();
+            parameters.TargetDirectory = parameterValues[4].ToString();
+            parameters.FileName = parameterValues[5].ToString();
             return new CopyFileJobb(parameters);
         }
 
-        private static AbstractJobbParameters SetAbstractParameters(List<string> parameterValues,
-            AbstractJobbParameters parameters)
+        private static AbstractJobbParameters SetAbstractParameters(AbstractJobbParameters parameters, params object[] parameterValues)
         {
-            parameters.Name = parameterValues[0];
+            parameters.Name = parameterValues[0].ToString();
             parameters.Schedule =
-                GetScheduleFromString(parameterValues[1], parameterValues[2]);
+                GetScheduleFromString(parameterValues[1].ToString(), parameterValues[2].ToString());
             return parameters;
         }
     }
