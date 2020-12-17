@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using GUI.Avalonia.Utility;
-using GUI.Avalonia.Views;
 
 namespace GUI.Avalonia.ViewModels {
     public class JobbsViewModel : ViewModelBase {
@@ -24,10 +23,7 @@ namespace GUI.Avalonia.ViewModels {
 
         private void OnAddJobb(object commandParameter) {
             var model = new CreateNewJobbViewModel() { JobbViewModels = Jobbs };
-            var createNewJobbView = new CreateNewJobbView {
-                DataContext = model
-            };
-            createNewJobbView.Show();
+            model.CreateView();
         }
         #endregion
     }

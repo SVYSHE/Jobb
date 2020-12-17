@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using GUI.Avalonia.Utility;
+using GUI.Avalonia.Views;
 using Jobb.Utility;
 
 namespace GUI.Avalonia.ViewModels {
@@ -23,11 +24,22 @@ namespace GUI.Avalonia.ViewModels {
 
         public ObservableCollection<JobbViewModel> JobbViewModels { get; set; }
 
+        private CreateNewJobbView createNewJobbView { get; set; }
+
         public CreateNewJobbViewModel() {
             createJobbCommand = new DelegateCommand(OnCreateJobb, CanCreateJobb);
             cancelCreationCommand = new DelegateCommand(OnCancelCreation, CanCancelCreation);
 
             Parameters = new ObservableCollection<Parameter>();
+
+            ErrorMessage = "XXXXX";
+        }
+
+        public void CreateView() {
+            createNewJobbView = new CreateNewJobbView {
+                DataContext = this
+            };
+            createNewJobbView.Show();
         }
 
         private void CreateParameterValues() {
@@ -62,7 +74,7 @@ namespace GUI.Avalonia.ViewModels {
         }
 
         private void OnCancelCreation(object commandParameter) {
-            ErrorMessage = "Errors: aaaaaaaaaaaaaaaaaaaaaaa";
+            createNewJobbView.Close();
         }
         #endregion
     }
