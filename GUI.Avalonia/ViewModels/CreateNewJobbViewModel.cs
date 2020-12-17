@@ -31,8 +31,6 @@ namespace GUI.Avalonia.ViewModels {
             cancelCreationCommand = new DelegateCommand(OnCancelCreation, CanCancelCreation);
 
             Parameters = new ObservableCollection<Parameter>();
-
-            ErrorMessage = "XXXXX";
         }
 
         public void CreateView() {
@@ -63,7 +61,7 @@ namespace GUI.Avalonia.ViewModels {
             try {
                 var newJobb = JobbFactory.GetJobb(SelectedJobbType, valueList.ToArray());
                 JobbViewModels.Add(new JobbViewModel(newJobb));
-                ErrorMessage = "Errors:";
+                ErrorMessage = "";
             } catch (System.Exception ex) {
                 ErrorMessage = ex.Message;
             }
