@@ -2,16 +2,16 @@
 using System.IO;
 using Jobb.Utility;
 
-namespace Jobb.Models.Implementations.Jobbs
+namespace Jobb.Models.Implementations.Jobbs.CopyFile
 {
-    public class EmptyDirectoryJobb : AbstractJobb
+    public class CopyFileJobb : AbstractJobb
     {
-        public new EmptyDirectoryJobbParameters Parameters { get; }
+        public new CopyFileJobbParameters Parameters { get; }
 
-        public EmptyDirectoryJobb(EmptyDirectoryJobbParameters parameters) : base(parameters)
+        public CopyFileJobb(CopyFileJobbParameters parameters) : base(parameters)
         {
             Parameters = parameters;
-            Parameters.JobbType = JobbType.EmptyDirectory;
+            Parameters.JobbType = JobbType.CopyFile;
             SetTimer();
         }
 
@@ -19,12 +19,8 @@ namespace Jobb.Models.Implementations.Jobbs
         {
             try
             {
-                string[] filesInDirectory = Directory.GetFiles(Parameters.TargetDirectory);
-                foreach (string file in filesInDirectory)
-                {
-                    File.Delete(file);
-                }
-
+                File.Copy(Path.Combine(Parameters.SourceDirectory, Parameters.FileName),
+                    Path.Combine(Parameters.TargetDirectory, Parameters.FileName));
                 Parameters.ReturnCode = JobbReturnCode.Success;
                 Parameters.Error = new Exception("");
                 return Parameters.ReturnCode;
@@ -32,7 +28,7 @@ namespace Jobb.Models.Implementations.Jobbs
             catch (IOException ioEx)
             {
                 Parameters.Error = ioEx;
-                Console.WriteLine(ioEx.Message);
+                Console.WriteLine(ioEx);
                 Parameters.ReturnCode = JobbReturnCode.Error;
                 return Parameters.ReturnCode;
             }

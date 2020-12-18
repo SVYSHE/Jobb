@@ -4,12 +4,12 @@ using System.Reflection;
 using Jobb.Exceptions;
 using Jobb.Models;
 using Jobb.Models.Implementations;
-using Jobb.Models.Implementations.Jobbs;
+using Jobb.Models.Implementations.Jobbs.CopyFile;
+using Jobb.Models.Implementations.Jobbs.EmptyDirectory;
 using Jobb.Utility;
 using UserInterface.SimpleUserInterface;
 
-namespace UI.Console.Controller
-{
+namespace UI.Console.Controller {
     public class Controller
     {
         private List<AbstractJobb> JobbList { get; set; }

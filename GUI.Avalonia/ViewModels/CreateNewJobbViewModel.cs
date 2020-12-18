@@ -42,7 +42,7 @@ namespace GUI.Avalonia.ViewModels {
 
         private void CreateParameterValues() {
             Parameters.Clear();
-            var jobbParameters = JobbFactory.GetJobbParameter(SelectedJobbType);
+            var jobbParameters = new JobbFactory().GetJobbParameter(SelectedJobbType);
             foreach (var parameter in jobbParameters) {
                 Parameters.Add(new Parameter { Name = parameter, Value = "" });
             }
@@ -59,7 +59,7 @@ namespace GUI.Avalonia.ViewModels {
                 valueList.Add(parameterValue.Value);
             }
             try {
-                var newJobb = JobbFactory.GetJobb(SelectedJobbType, valueList.ToArray());
+                var newJobb = new JobbFactory().GetJobb(SelectedJobbType, valueList.ToArray());
                 JobbViewModels.Add(new JobbViewModel(newJobb));
                 ErrorMessage = "";
             } catch (System.Exception ex) {

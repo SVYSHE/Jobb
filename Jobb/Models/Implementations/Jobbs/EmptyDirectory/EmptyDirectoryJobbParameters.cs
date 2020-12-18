@@ -1,5 +1,4 @@
-namespace Jobb.Models.Implementations.Jobbs
-{
+namespace Jobb.Models.Implementations.Jobbs.EmptyDirectory {
     public class EmptyDirectoryJobbParameters : AbstractJobbParameters
     {
         private string _targetDirectory;

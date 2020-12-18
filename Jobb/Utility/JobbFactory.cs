@@ -1,82 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
+using System.Reflection;
 using Jobb.Models;
-using Jobb.Models.Implementations.Jobbs;
 using static Jobb.Utility.ScheduleUtility;
 
-namespace Jobb.Utility
-{
-    public static class JobbFactory
-    {
-        public static AbstractJobb GetJobb(JobbType jobbType, params object[] parameterValues)
-        {
-            AbstractJobb jobbToReturn = jobbType switch
-            {
-                JobbType.CopyFile => CreateCopyFileJobb(parameterValues),
-                JobbType.EmptyDirectory => CreateEmptyDirectoryJobb(parameterValues),
-                _ => throw new InvalidOperationException()
-            };
+namespace Jobb.Utility {
+    public class JobbFactory {
+        public static Dictionary<JobbType, JobbFactory> FactoriesDictionary { get; set; }
+
+        static JobbFactory() {
+            FactoriesDictionary= new Dictionary<JobbType, JobbFactory>();
+            RegisterFactories();
+        }
+
+        private static void RegisterFactories() {
+            var derrivedTypes = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => typeof(JobbFactory)
+                .IsAssignableFrom(t) && t != typeof(JobbFactory));
+
+            foreach (var type in derrivedTypes) {
+                System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+            }
+        }
+
+        private JobbFactory GetFactory(JobbType jobbType) {
+            FactoriesDictionary.TryGetValue(jobbType, out var factory);
+            return factory;
+        }
+
+        public AbstractJobb GetJobb(JobbType jobbType, params object[] parameterValues) {
+            var jobbToReturn = GetFactory(jobbType).CreateJobb(parameterValues);
             return jobbToReturn;
         }
 
-        public static List<string> GetJobbParameter(JobbType jobbType)
-        {
+        public List<string> GetJobbParameter(JobbType jobbType) {
             var jobbParameter = new List<string>();
             jobbParameter = AddAbstractParameter(jobbParameter);
-
-            return jobbType switch
-            {
-                JobbType.CopyFile => AddCopyFileParameter(jobbParameter),
-                JobbType.EmptyDirectory => AddEmptyDirectoryParameter(jobbParameter),
-                _ => throw new InvalidExpressionException($"Invalid jobb type was passed. <{jobbType}>")
-            };
+            return GetFactory(jobbType).AddParameters(jobbParameter);
         }
 
-        private static List<string> AddAbstractParameter(List<string> jobbParameter)
-        {
+        private List<string> AddAbstractParameter(List<string> jobbParameter) {
             jobbParameter.Add("Name");
             jobbParameter.Add("Period");
             jobbParameter.Add("Unit");
             return jobbParameter;
         }
 
-        private static List<string> AddEmptyDirectoryParameter(List<string> jobbParameter)
-        {
-            jobbParameter.AddRange(new List<string>() {"Target Directory"});
-            return jobbParameter;
+        public virtual List<string> AddParameters(List<string> jobbParameter) {
+            throw new NotImplementedException();
         }
 
-        private static List<string> AddCopyFileParameter(List<string> jobbParameter)
-        {
-            jobbParameter.AddRange(new List<string>() {"Source Directory", "Target Directory", "File Name"});
-            return jobbParameter;
-        }
-
-        private static EmptyDirectoryJobb CreateEmptyDirectoryJobb(params object[] parameterValues)
-        {
-            var parameters = new EmptyDirectoryJobbParameters();
-            parameters = (EmptyDirectoryJobbParameters) SetAbstractParameters(parameters, parameterValues);
-            parameters.TargetDirectory = parameterValues[3].ToString();
-            return new EmptyDirectoryJobb(parameters);
-        }
-
-        private static CopyFileJobb CreateCopyFileJobb(params object[] parameterValues)
-        {
-            var parameters = new CopyFileJobbParameters();
-            parameters = (CopyFileJobbParameters) SetAbstractParameters(parameters, parameterValues);
-            parameters.SourceDirectory = parameterValues[3].ToString();
-            parameters.TargetDirectory = parameterValues[4].ToString();
-            parameters.FileName = parameterValues[5].ToString();
-            return new CopyFileJobb(parameters);
-        }
-
-        private static AbstractJobbParameters SetAbstractParameters(AbstractJobbParameters parameters, params object[] parameterValues)
-        {
+        protected AbstractJobbParameters SetAbstractParameters(AbstractJobbParameters parameters, params object[] parameterValues) {
             parameters.Name = parameterValues[0].ToString();
             parameters.Schedule =
                 GetScheduleFromString(parameterValues[1].ToString(), parameterValues[2].ToString());
             return parameters;
+        }
+
+        protected virtual AbstractJobb CreateJobb(params object[] parameterValues) {
+            throw new NotImplementedException();
         }
     }
 }

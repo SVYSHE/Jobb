@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Jobb.Models;
-using Jobb.Models.Implementations;
-using Jobb.Models.Implementations.Jobbs;
+﻿using System.Collections.Generic;
+using Jobb.Models.Implementations.Jobbs.CopyFile;
+using Jobb.Models.Implementations.Jobbs.EmptyDirectory;
 using Jobb.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace JobbTest.UtilityTests
-{
+namespace JobbTest.UtilityTests {
     [TestClass]
     public class JobbFactoryTest
     {
@@ -21,9 +18,9 @@ namespace JobbTest.UtilityTests
             const string expectedTargetDir = "C:/Test2";
             const string expectedFileName = "NewFile.txt";
             
-            CopyFileJobb jobb = (CopyFileJobb) JobbFactory.GetJobb(JobbType.CopyFile,"TestJobb", "Seconds", "5", "C:/Test", "C:/Test2", "NewFile.txt");
+            var jobb = (CopyFileJobb) new JobbFactory().GetJobb(JobbType.CopyFile, "TestJobb", "Seconds", "5", "C:/Test", "C:/Test2", "NewFile.txt");
             string actualName = jobb.Parameters.Name;
-            Period actualPeriod = jobb.Parameters.Schedule.Period;
+            var actualPeriod = jobb.Parameters.Schedule.Period;
             int actualUnit = jobb.Parameters.Schedule.Unit;
             string actualSourceDir = jobb.Parameters.SourceDirectory;
             string actualTargetDir = jobb.Parameters.TargetDirectory;
@@ -45,7 +42,7 @@ namespace JobbTest.UtilityTests
             const int expectedUnit = 5;
             const string expectedTargetDir = "C:/Test2";
             
-            EmptyDirectoryJobb jobb = (EmptyDirectoryJobb) JobbFactory.GetJobb(JobbType.EmptyDirectory,"TestJobb", "Seconds", "5", "C:/Test2");
+            var jobb = (EmptyDirectoryJobb) new JobbFactory().GetJobb(JobbType.EmptyDirectory, "TestJobb", "Seconds", "5", "C:/Test2");
             string actualName = jobb.Parameters.Name;
             Period actualPeriod = jobb.Parameters.Schedule.Period;
             int actualUnit = jobb.Parameters.Schedule.Unit;
@@ -62,7 +59,7 @@ namespace JobbTest.UtilityTests
         {
             var expected = new List<string>(){"Name", "Period", "Unit", "Source Directory", "Target Directory", "File Name"};
 
-            List<string> actual = JobbFactory.GetJobbParameter(JobbType.CopyFile);
+            List<string> actual = new JobbFactory().GetJobbParameter(JobbType.CopyFile);
             
             Assert.AreEqual(expected[0], actual[0]);
             Assert.AreEqual(expected[1], actual[1]);
@@ -77,7 +74,7 @@ namespace JobbTest.UtilityTests
         {
             var expected = new List<string>(){"Name", "Period", "Unit", "Target Directory"};
 
-            List<string> actual = JobbFactory.GetJobbParameter(JobbType.EmptyDirectory);
+            List<string> actual = new JobbFactory().GetJobbParameter(JobbType.EmptyDirectory);
             
             Assert.AreEqual(expected[0], actual[0]);
             Assert.AreEqual(expected[1], actual[1]);

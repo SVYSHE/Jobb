@@ -1,7 +1,7 @@
 using System.IO;
 using Jobb.Exceptions;
 using Jobb.Models.Implementations;
-using Jobb.Models.Implementations.Jobbs;
+using Jobb.Models.Implementations.Jobbs.EmptyDirectory;
 using Jobb.Utility;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

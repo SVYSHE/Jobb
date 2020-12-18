@@ -1,4 +1,4 @@
-namespace Jobb.Models.Implementations.Jobbs
+namespace Jobb.Models.Implementations.Jobbs.CopyFile
 {
     public class CopyFileJobbParameters : AbstractJobbParameters
     {
