@@ -24,7 +24,7 @@ namespace GUI.Avalonia.ViewModels {
 
         public ObservableCollection<JobbViewModel> JobbViewModels { get; set; }
 
-        private CreateNewJobbView createNewJobbView { get; set; }
+        public CreateNewJobbView CreateNewJobbView { get; private set; }
 
         public CreateNewJobbViewModel() {
             createJobbCommand = new DelegateCommand(OnCreateJobb, CanCreateJobb);
@@ -34,15 +34,15 @@ namespace GUI.Avalonia.ViewModels {
         }
 
         public void CreateView() {
-            createNewJobbView = new CreateNewJobbView {
+            CreateNewJobbView = new CreateNewJobbView {
                 DataContext = this
             };
-            createNewJobbView.Show();
+            CreateNewJobbView.Show();
         }
 
         private void CreateParameterValues() {
             Parameters.Clear();
-            var jobbParameters = new JobbFactory().GetJobbParameter(SelectedJobbType);
+            var jobbParameters = JobbFactory.GetJobbParameter(SelectedJobbType);
             foreach (var parameter in jobbParameters) {
                 Parameters.Add(new Parameter { Name = parameter, Value = "" });
             }
@@ -59,7 +59,7 @@ namespace GUI.Avalonia.ViewModels {
                 valueList.Add(parameterValue.Value);
             }
             try {
-                var newJobb = new JobbFactory().GetJobb(SelectedJobbType, valueList.ToArray());
+                var newJobb = JobbFactory.GetJobb(SelectedJobbType, valueList.ToArray());
                 JobbViewModels.Add(new JobbViewModel(newJobb));
                 ErrorMessage = "";
             } catch (System.Exception ex) {
@@ -72,7 +72,7 @@ namespace GUI.Avalonia.ViewModels {
         }
 
         private void OnCancelCreation(object commandParameter) {
-            createNewJobbView.Close();
+            CreateNewJobbView.Close();
         }
         #endregion
     }

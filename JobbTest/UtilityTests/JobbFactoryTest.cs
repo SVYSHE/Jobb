@@ -18,7 +18,7 @@ namespace JobbTest.UtilityTests {
             const string expectedTargetDir = "C:/Test2";
             const string expectedFileName = "NewFile.txt";
             
-            var jobb = (CopyFileJobb) new JobbFactory().GetJobb(JobbType.CopyFile, "TestJobb", "Seconds", "5", "C:/Test", "C:/Test2", "NewFile.txt");
+            var jobb = (CopyFileJobb) JobbFactory.GetJobb(JobbType.CopyFile, "TestJobb", "Seconds", "5", "C:/Test", "C:/Test2", "NewFile.txt");
             string actualName = jobb.Parameters.Name;
             var actualPeriod = jobb.Parameters.Schedule.Period;
             int actualUnit = jobb.Parameters.Schedule.Unit;
@@ -42,9 +42,9 @@ namespace JobbTest.UtilityTests {
             const int expectedUnit = 5;
             const string expectedTargetDir = "C:/Test2";
             
-            var jobb = (EmptyDirectoryJobb) new JobbFactory().GetJobb(JobbType.EmptyDirectory, "TestJobb", "Seconds", "5", "C:/Test2");
+            var jobb = (EmptyDirectoryJobb) JobbFactory.GetJobb(JobbType.EmptyDirectory, "TestJobb", "Seconds", "5", "C:/Test2");
             string actualName = jobb.Parameters.Name;
-            Period actualPeriod = jobb.Parameters.Schedule.Period;
+            var actualPeriod = jobb.Parameters.Schedule.Period;
             int actualUnit = jobb.Parameters.Schedule.Unit;
             string actualTargetDir = jobb.Parameters.TargetDirectory;
 
@@ -59,7 +59,7 @@ namespace JobbTest.UtilityTests {
         {
             var expected = new List<string>(){"Name", "Period", "Unit", "Source Directory", "Target Directory", "File Name"};
 
-            List<string> actual = new JobbFactory().GetJobbParameter(JobbType.CopyFile);
+            var actual = JobbFactory.GetJobbParameter(JobbType.CopyFile);
             
             Assert.AreEqual(expected[0], actual[0]);
             Assert.AreEqual(expected[1], actual[1]);
@@ -74,7 +74,7 @@ namespace JobbTest.UtilityTests {
         {
             var expected = new List<string>(){"Name", "Period", "Unit", "Target Directory"};
 
-            List<string> actual = new JobbFactory().GetJobbParameter(JobbType.EmptyDirectory);
+            var actual = JobbFactory.GetJobbParameter(JobbType.EmptyDirectory);
             
             Assert.AreEqual(expected[0], actual[0]);
             Assert.AreEqual(expected[1], actual[1]);
