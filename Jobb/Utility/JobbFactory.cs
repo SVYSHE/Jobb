@@ -25,23 +25,23 @@ namespace Jobb.Utility {
             }
         }
 
-        private JobbFactory GetFactory(JobbType jobbType) {
+        private static JobbFactory GetFactory(JobbType jobbType) {
             FactoriesDictionary.TryGetValue(jobbType, out var factory);
             return factory;
         }
 
-        public AbstractJobb GetJobb(JobbType jobbType, params object[] parameterValues) {
+        public static AbstractJobb GetJobb(JobbType jobbType, params object[] parameterValues) {
             var jobbToReturn = GetFactory(jobbType).CreateJobb(parameterValues);
             return jobbToReturn;
         }
 
-        public List<string> GetJobbParameter(JobbType jobbType) {
+        public static List<string> GetJobbParameter(JobbType jobbType) {
             var jobbParameter = new List<string>();
             jobbParameter = AddAbstractParameter(jobbParameter);
             return GetFactory(jobbType).AddParameters(jobbParameter);
         }
 
-        private List<string> AddAbstractParameter(List<string> jobbParameter) {
+        private static List<string> AddAbstractParameter(List<string> jobbParameter) {
             jobbParameter.Add("Name");
             jobbParameter.Add("Period");
             jobbParameter.Add("Unit");
@@ -52,7 +52,7 @@ namespace Jobb.Utility {
             throw new NotImplementedException();
         }
 
-        protected AbstractJobbParameters SetAbstractParameters(AbstractJobbParameters parameters, params object[] parameterValues) {
+        protected static AbstractJobbParameters SetAbstractParameters(AbstractJobbParameters parameters, params object[] parameterValues) {
             parameters.Name = parameterValues[0].ToString();
             parameters.Schedule =
                 GetScheduleFromString(parameterValues[1].ToString(), parameterValues[2].ToString());
