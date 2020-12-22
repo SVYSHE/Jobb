@@ -7,7 +7,7 @@ namespace Jobb.Models.Implementations.Jobbs.EmptyDirectory {
             FactoriesDictionary.Add(JobbType.EmptyDirectory, new EmptyDirectoryJobbFactory());
         }
 
-        protected override EmptyDirectoryJobb CreateJobb(params object[] parameterValues) {
+        protected override AbstractJobb CreateJobb(params object[] parameterValues) {
             var parameters = new EmptyDirectoryJobbParameters();
             parameters = (EmptyDirectoryJobbParameters)SetAbstractParameters(parameters, parameterValues);
             parameters.TargetDirectory = parameterValues[3].ToString();

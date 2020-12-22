@@ -7,7 +7,7 @@ namespace Jobb.Models.Implementations.Jobbs.CopyFile {
             FactoriesDictionary.Add(JobbType.CopyFile, new CopyFileJobbFactory());
         }
 
-        protected override CopyFileJobb CreateJobb(params object[] parameterValues) {
+        protected override AbstractJobb CreateJobb(params object[] parameterValues) {
             var parameters = new CopyFileJobbParameters();
             parameters = (CopyFileJobbParameters)SetAbstractParameters(parameters, parameterValues);
             parameters.SourceDirectory = parameterValues[3].ToString();
