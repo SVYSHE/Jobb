@@ -38,7 +38,7 @@ To be done.
 
 ## License
 
-This project is licensed under the MIT License - for further details please have a look at the LICENSE file.
+This project is licensed under the GNU GPL-3.0 license. For further details please look at the [License](https://github.com/SVYSHE/Jobb/blob/master/LICENSE)
 
 ## Credits
 
